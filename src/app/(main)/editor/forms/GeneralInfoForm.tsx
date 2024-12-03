@@ -6,6 +6,7 @@ import {
   FormControl,
   FormDescription,
   FormField,
+  FormItem,
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
@@ -19,6 +20,7 @@ export default function GeneralInfoForm() {
       description: "",
     },
   });
+
   return (
     <div className="mx-auto max-w-xl space-y-6">
       <div className="space-y-1.5 text-center">
@@ -32,13 +34,13 @@ export default function GeneralInfoForm() {
             control={form.control}
             name="title"
             render={({ field }) => (
-              <FormLabel>
-                Project name
+              <FormItem>
+                <FormLabel>Project name</FormLabel>
                 <FormControl>
                   <Input {...field} placeholder="..." autoFocus />
                 </FormControl>
                 <FormMessage />
-              </FormLabel>
+              </FormItem>
             )}
           />
 
@@ -46,14 +48,14 @@ export default function GeneralInfoForm() {
             control={form.control}
             name="description"
             render={({ field }) => (
-              <FormLabel>
-                Description
+              <FormItem>
+                <FormLabel>Description </FormLabel>
                 <FormControl>
                   <Input {...field} placeholder="..." />
                 </FormControl>
                 <FormDescription>Describe...</FormDescription>
                 <FormMessage />
-              </FormLabel>
+              </FormItem>
             )}
           />
         </form>
