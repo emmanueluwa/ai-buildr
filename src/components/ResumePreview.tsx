@@ -3,6 +3,7 @@ import { cn } from "@/lib/utils";
 import { ResumeValues } from "@/lib/validation";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
+import { formatDate } from "date-fns";
 
 interface ResumePreviewProps {
   resumeData: ResumeValues;
@@ -34,6 +35,10 @@ export default function ResumePreview({
         }}
       >
         <PersonalInfoHeader resumeData={resumeData} />
+
+        <SummarySection resumeData={resumeData} />
+
+        <WorkExperienceSection resumeData={resumeData} />
       </div>
     </div>
   );
@@ -87,5 +92,59 @@ function PersonalInfoHeader({ resumeData }: ResumeSectionProps) {
         </p>
       </div>
     </div>
+  );
+}
+
+function SummarySection({ resumeData }: ResumeSectionProps) {
+  const { summary } = resumeData;
+
+  if (!summary) return null;
+
+  return (
+    <>
+      <hr className="border-2" />
+      <div className="break-inside-avoid space-y-3">
+        <p className="text-lg font-semibold">Professional profile</p>
+        <div className="whitespace-pre-line text-sm">{summary}</div>
+      </div>
+    </>
+  );
+}
+
+function WorkExperienceSection({ resumeData }: ResumeSectionProps) {
+  const { workExperience } = resumeData;
+
+  const workExperienceNotEmpty = workExperience?.filter(
+    (experience) => Object.values(experience).filter(Boolean).length > 0,
+  );
+
+  if (!workExperienceNotEmpty?.length) return null;
+
+  return (
+    <>
+      <hr className="border-2" />
+      <div className="space-y-3">
+        <p className="text-lg font-semibold">Experience</p>
+        {workExperienceNotEmpty.map((experience, index) => (
+          <div key={index} className="break-inside-avoid space-y-1">
+            <div className="flex items-center justify-between text-sm font-semibold">
+              <span>{experience.position}</span>
+              {experience.startDate && (
+                <span>
+                  {formatDate(experience.startDate, "MM/yyyy")} -{" "}
+                  {experience.endDate
+                    ? formatDate(experience.endDate, "MM/yyyy")
+                    : "Present"}
+                </span>
+              )}
+            </div>
+            <p className="text-xs font-semibold">{experience.company}</p>
+            <div className="whitespace-pre-line text-xs">
+              {experience.description}
+            </div>
+          </div>
+        ))}
+      </div>
+    </>
   );
 }
