@@ -73,10 +73,18 @@ function PersonalInfoHeader({ resumeData }: ResumeSectionProps) {
 
       <div className="space-y-2.5">
         <div className="space-y-1">
-          <div className="text-3xl font-bold">
+          <p className="text-3xl font-bold">
             {firstName} {lastName}
-          </div>
+          </p>
+          <p className="font-medium">{jobTitle}</p>
         </div>
+        <p className="text-xs text-gray-500">
+          {city}
+          {city && country ? ", " : ""}
+          {country}
+          {(city || country) && (phone || email) ? " • " : ""}
+          {[phone, email].filter(Boolean).join(" • ")}
+        </p>
       </div>
     </div>
   );
