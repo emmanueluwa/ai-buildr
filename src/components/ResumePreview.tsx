@@ -1,7 +1,8 @@
 import useDimensions from "@/hooks/useDimensions";
 import { cn } from "@/lib/utils";
 import { ResumeValues } from "@/lib/validation";
-import { useRef } from "react";
+import Image from "next/image";
+import { useEffect, useRef, useState } from "react";
 
 interface ResumePreviewProps {
   resumeData: ResumeValues;
@@ -32,9 +33,50 @@ export default function ResumePreview({
           zoom: (1 / 794) * width,
         }}
       >
-        <h1 className="p-6 text-3xl font-bold">
-          text changes with size of container
-        </h1>
+        <PersonalInfoHeader resumeData={resumeData} />
+      </div>
+    </div>
+  );
+}
+
+interface ResumeSectionProps {
+  resumeData: ResumeValues;
+}
+
+function PersonalInfoHeader({ resumeData }: ResumeSectionProps) {
+  const { city, country, email, firstName, lastName, jobTitle, phone, photo } =
+    resumeData;
+
+  const [photoSrc, setPhotoSrc] = useState(photo instanceof File ? "" : photo);
+
+  useEffect(() => {
+    const objectUrl = photo instanceof File ? URL.createObjectURL(photo) : "";
+    if (objectUrl) setPhotoSrc(objectUrl);
+
+    //not selected, removed
+    if (photo === null) setPhotoSrc("");
+
+    return () => URL.revokeObjectURL(objectUrl);
+  }, [photo]);
+
+  return (
+    <div className="flex items-center gap-6">
+      {photoSrc && (
+        <Image
+          src={photoSrc}
+          width={100}
+          height={100}
+          alt="author image"
+          className="aspect-square object-cover"
+        />
+      )}
+
+      <div className="space-y-2.5">
+        <div className="space-y-1">
+          <div className="text-3xl font-bold">
+            {firstName} {lastName}
+          </div>
+        </div>
       </div>
     </div>
   );
