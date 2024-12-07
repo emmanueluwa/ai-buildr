@@ -4,16 +4,12 @@ import prisma from "@/lib/prisma";
 import { resumeSchema, ResumeValues } from "@/lib/validation";
 import { auth } from "@clerk/nextjs/server";
 import { del, put } from "@vercel/blob";
-import exp from "constants";
-import { access } from "fs";
 import path from "path";
 
 export async function saveResume(values: ResumeValues) {
   const { id } = values;
 
-  console.log("received vals", values);
-
-  const { photo, workExperience, education, ...resumeValues } =
+  const { photo, workExperience, education, skills, ...resumeValues } =
     resumeSchema.parse(values);
 
   const { userId } = await auth();
@@ -83,6 +79,7 @@ export async function saveResume(values: ResumeValues) {
               : undefined,
           })),
         },
+        Skills: skills,
         updatedAt: new Date(),
       },
     });
