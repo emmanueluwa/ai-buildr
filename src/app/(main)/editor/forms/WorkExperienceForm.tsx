@@ -11,7 +11,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { EditorFormProps } from "@/lib/types";
-import { workExperienceSchema, workExperienceValues } from "@/lib/validation";
+import { workExperienceSchema, WorkExperienceValues } from "@/lib/validation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { GripHorizontal } from "lucide-react";
 import { useEffect } from "react";
@@ -35,12 +35,13 @@ import {
 import { restrictToVerticalAxis } from "@dnd-kit/modifiers";
 import { CSS } from "@dnd-kit/utilities";
 import { cn } from "@/lib/utils";
+import GenerateWorkExperienceButton from "./GenerateWorkExperienceButton";
 
 export default function WorkExperienceForm({
   resumeData,
   setResumeData,
 }: EditorFormProps) {
-  const form = useForm<workExperienceValues>({
+  const form = useForm<WorkExperienceValues>({
     resolver: zodResolver(workExperienceSchema),
     defaultValues: {
       workExperience: resumeData.workExperience || [],
@@ -143,7 +144,7 @@ export default function WorkExperienceForm({
 
 interface WorkExperienceItemProps {
   id: string;
-  form: UseFormReturn<workExperienceValues>;
+  form: UseFormReturn<WorkExperienceValues>;
   index: number;
   remove: (index: number) => void;
 }
@@ -182,6 +183,15 @@ function WorkExperienceItem({
           {...listeners}
         />
       </div>
+
+      <div className="flex justify-center">
+        <GenerateWorkExperienceButton
+          onWorkExperienceGenerated={(experience) =>
+            form.setValue(`workExperience.${index}`, experience)
+          }
+        />
+      </div>
+
       <FormField
         control={form.control}
         name={`workExperience.${index}.position`}
@@ -189,7 +199,7 @@ function WorkExperienceItem({
           <FormItem>
             <FormLabel>Job title</FormLabel>
             <FormControl>
-              <Input {...field} autoFocus />
+              <Input defaultValue="" {...field} autoFocus />
             </FormControl>
             <FormMessage />
           </FormItem>
@@ -202,7 +212,7 @@ function WorkExperienceItem({
           <FormItem>
             <FormLabel>Company</FormLabel>
             <FormControl>
-              <Input {...field} />
+              <Input defaultValue="" {...field} />
             </FormControl>
             <FormMessage />
           </FormItem>

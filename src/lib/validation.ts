@@ -46,7 +46,12 @@ export const workExperienceSchema = z.object({
     .optional(),
 });
 
-export type workExperienceValues = z.infer<typeof workExperienceSchema>;
+export type WorkExperienceValues = z.infer<typeof workExperienceSchema>;
+
+//reach into schema for type of inner object
+export type WorkExperience = NonNullable<
+  z.infer<typeof workExperienceSchema>["workExperience"]
+>[number];
 
 export const educationSchema = z.object({
   education: z
@@ -90,6 +95,18 @@ export type ResumeValues = Omit<z.infer<typeof resumeSchema>, "photo"> & {
   id?: string;
   photo?: File | string | null;
 };
+
+export const generateWorkExperienceSchema = z.object({
+  description: z
+    .string()
+    .trim()
+    .min(1, "Required")
+    .min(20, "Must be at least 20 characters"),
+});
+
+export type GenerateWorkExperienceInput = z.infer<
+  typeof generateWorkExperienceSchema
+>;
 
 export const generateSummarySchema = z.object({
   jobTitle: optionalString,
