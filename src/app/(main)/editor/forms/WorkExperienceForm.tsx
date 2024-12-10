@@ -199,7 +199,7 @@ function WorkExperienceItem({
           <FormItem>
             <FormLabel>Job title</FormLabel>
             <FormControl>
-              <Input defaultValue="" {...field} autoFocus />
+              <Input {...field} autoFocus />
             </FormControl>
             <FormMessage />
           </FormItem>
@@ -212,7 +212,7 @@ function WorkExperienceItem({
           <FormItem>
             <FormLabel>Company</FormLabel>
             <FormControl>
-              <Input defaultValue="" {...field} />
+              <Input {...field} />
             </FormControl>
             <FormMessage />
           </FormItem>
