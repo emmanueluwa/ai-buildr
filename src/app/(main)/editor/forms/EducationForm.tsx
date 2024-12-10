@@ -213,7 +213,7 @@ function EducationItem({ id, form, index, remove }: EducationItemProps) {
                   {...field}
                   type="date"
                   //   remove time from date
-                  value={field.value?.slice(0, 10)}
+                  value={field.value ? field.value.slice(0, 10) : ""}
                 />
               </FormControl>
               <FormMessage />
@@ -231,7 +231,7 @@ function EducationItem({ id, form, index, remove }: EducationItemProps) {
                   {...field}
                   type="date"
                   //   remove time from date
-                  value={field.value?.slice(0, 10)}
+                  value={field.value ? field.value.slice(0, 10) : ""}
                 />
               </FormControl>
               <FormMessage />
