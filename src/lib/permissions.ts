@@ -1,4 +1,3 @@
-import { currentUser } from "@clerk/nextjs/server";
 import { SubscriptionLevel } from "./subscription";
 
 export function canCreateResume(

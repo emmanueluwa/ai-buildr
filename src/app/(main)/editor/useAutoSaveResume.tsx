@@ -1,4 +1,4 @@
-import { toast, useToast } from "@/hooks/use-toast";
+import { useToast } from "@/hooks/use-toast";
 import useDebounce from "@/hooks/useDebounce";
 import { ResumeValues } from "@/lib/validation";
 import { useSearchParams } from "next/navigation";
@@ -10,7 +10,7 @@ import { fileReplacer } from "@/lib/utils";
 export default function useAutoSaveResume(resumeData: ResumeValues) {
   const searchParams = useSearchParams();
 
-  const {} = useToast();
+  const { toast } = useToast();
 
   const debouncedResumeData = useDebounce(resumeData, 1500);
 

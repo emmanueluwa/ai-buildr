@@ -1,4 +1,3 @@
-import prisma from "@/lib/prisma";
 import Image from "next/image";
 import logo from "@/assets/meal-logo.jpg";
 import { Button } from "@/components/ui/button";

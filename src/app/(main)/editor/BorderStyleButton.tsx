@@ -52,7 +52,7 @@ export default function BorderStyleButton({
       title="Change border style"
       onClick={handleClick}
     >
-      <Squircle className="size-5" />
+      <Icon className="size-5" />
     </Button>
   );
 }
