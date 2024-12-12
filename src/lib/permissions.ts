@@ -1,18 +1,18 @@
 import { SubscriptionLevel } from "./subscription";
 
-export function canCreateResume(
+export function canCreateMealplan(
   SubscriptionLevel: SubscriptionLevel,
-  currentResumeCount: number,
+  currentMealplanCount: number,
 ) {
-  const maxResumeMap: Record<SubscriptionLevel, number> = {
+  const maxMealplansMap: Record<SubscriptionLevel, number> = {
     free: 1,
     pro: 3,
     pro_plus: Infinity,
   };
 
-  const maxResumes = maxResumeMap[SubscriptionLevel];
+  const maxMealplans = maxMealplansMap[SubscriptionLevel];
 
-  return currentResumeCount < maxResumes;
+  return currentMealplanCount < maxMealplans;
 }
 
 export function canUseAITools(subscriptionLevel: SubscriptionLevel) {

@@ -5,13 +5,13 @@ import usePremiumModal from "@/hooks/usePremiumModal";
 import { PlusSquare } from "lucide-react";
 import Link from "next/link";
 
-interface CreateResumeButtonProps {
+interface CreateMealplanButtonProps {
   canCreate: boolean;
 }
 
-export default function CreateResumeButton({
+export default function CreateMealplanButton({
   canCreate,
-}: CreateResumeButtonProps) {
+}: CreateMealplanButtonProps) {
   const premiumModal = usePremiumModal();
 
   if (canCreate) {
@@ -19,7 +19,7 @@ export default function CreateResumeButton({
       <Button asChild className="mx-auto flex w-fit gap-2">
         <Link href="/editor">
           <PlusSquare className="size-5" />
-          New resume
+          New Meal Plan
         </Link>
       </Button>
     );

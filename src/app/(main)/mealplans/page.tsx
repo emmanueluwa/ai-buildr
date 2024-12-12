@@ -1,14 +1,14 @@
 import prisma from "@/lib/prisma";
-import { resumeDataInclude } from "@/lib/types";
+import { mealplanDataInclude } from "@/lib/types";
 import { auth } from "@clerk/nextjs/server";
 import { Metadata } from "next";
 import ResumeItem from "./ResumeItem";
-import CreateResumeButton from "./CreateResumeButton";
+import CreateMealplanButton from "./CreateMealplanButton";
 import { getUserSubscriptionLevel } from "@/lib/subscription";
-import { canCreateResume } from "@/lib/permissions";
+import { canCreateMealplan } from "@/lib/permissions";
 
 export const metadata: Metadata = {
-  title: "Your ...",
+  title: "Your Meal Plans",
 };
 
 export default async function Page() {
@@ -18,17 +18,17 @@ export default async function Page() {
     return null;
   }
 
-  const [resumes, totalCount, subscriptionLevel] = await Promise.all([
-    prisma.resume.findMany({
+  const [mealplans, totalCount, subscriptionLevel] = await Promise.all([
+    prisma.mealPlan.findMany({
       where: {
         userId,
       },
       orderBy: {
         updatedAt: "desc",
       },
-      include: resumeDataInclude,
+      include: mealplanDataInclude,
     }),
-    prisma.resume.count({
+    prisma.mealPlan.count({
       where: {
         userId,
       },
@@ -40,18 +40,18 @@ export default async function Page() {
 
   return (
     <main className="mx-auto w-full max-w-7xl space-y-6 px-3 py-6">
-      <CreateResumeButton
-        canCreate={canCreateResume(subscriptionLevel, totalCount)}
+      <CreateMealplanButton
+        canCreate={canCreateMealplan(subscriptionLevel, totalCount)}
       />
 
       <div className="space-y-1">
-        <h1 className="text-3xl font-bold">Your resumes</h1>
+        <h1 className="text-3xl font-bold">Your meal plans</h1>
         <p>Total: {totalCount}</p>
       </div>
 
       <div className="flex w-full grid-cols-2 flex-col gap-3 sm:grid md:grid-cols-3 lg:grid-cols-4">
-        {resumes.map((resume) => (
-          <ResumeItem key={resume.id} resume={resume} />
+        {mealplans.map((mealplan) => (
+          <ResumeItem key={mealplan.id} mealplan={mealplan} />
         ))}
       </div>
     </main>

@@ -62,6 +62,8 @@ model MealPlan {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  @@map("mealplans")
 }
 
 model LifestyleHealth {

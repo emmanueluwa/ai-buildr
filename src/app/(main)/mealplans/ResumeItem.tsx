@@ -9,7 +9,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useToast } from "@/hooks/use-toast";
-import { ResumeServerData } from "@/lib/types";
+import { MealplanServerData } from "@/lib/types";
 import { mapToResumeValues } from "@/lib/utils";
 import { formatDate } from "date-fns";
 import { MoreVertical, Printer, Trash } from "lucide-react";
@@ -27,61 +27,61 @@ import {
 import LoadingButton from "@/components/LoadingButton";
 import { useReactToPrint } from "react-to-print";
 
-interface ResumeItemProps {
-  resume: ResumeServerData;
+interface MealplanItemProps {
+  mealplan: MealplanServerData;
 }
 
-export default function ResumeItem({ resume }: ResumeItemProps) {
+export default function ResumeItem({ mealplan }: MealplanItemProps) {
   const contentRef = useRef<HTMLDivElement>(null);
 
   const reactToPrintFunction = useReactToPrint({
     contentRef,
-    documentTitle: resume.title || "Resume",
+    documentTitle: mealplan.title || "Resume",
   });
 
-  const wasUpdated = resume.updatedAt !== resume.createdAt;
+  const wasUpdated = mealplan.updatedAt !== mealplan.createdAt;
 
   return (
     <div className="group relative rounded-lg border border-transparent bg-secondary p-3 transition-colors hover:border-border">
       <div className="space-y-3">
         <Link
-          href={`/editor?resumeId=${resume.id}`}
+          href={`/editor?resumeId=${mealplan.id}`}
           className="inline-block w-full text-center"
         >
           <p className="line-clamp-1 font-semibold">
-            {resume.title || "No title"}
+            {mealplan.title || "No title"}
           </p>
-          {resume.description && (
-            <p className="line-clamp-2 text-sm">{resume.description}</p>
+          {mealplan.description && (
+            <p className="line-clamp-2 text-sm">{mealplan.description}</p>
           )}
           <p className="text-xs text-muted-foreground">
             {wasUpdated ? "Updated" : "Created"} on{" "}
-            {formatDate(resume.updatedAt, "MMM d, yyyy h:mm a")}
+            {formatDate(mealplan.updatedAt, "MMM d, yyyy h:mm a")}
           </p>
         </Link>
         <Link
-          href={`/editor?resumeId=${resume.id}`}
+          href={`/editor?resumeId=${mealplan.id}`}
           className="relative inline-block w-full"
         >
           <ResumePreview
             contentRef={contentRef}
-            resumeData={mapToResumeValues(resume)}
+            resumeData={mapToResumeValues(mealplan)}
             className="overflow-hidden shadow-sm transition-shadow group-hover:shadow-lg"
           />
           <div className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-white to-transparent"></div>
         </Link>
       </div>
-      <MoreMenu resumeId={resume.id} onPrintClick={reactToPrintFunction} />
+      <MoreMenu mealplanId={mealplan.id} onPrintClick={reactToPrintFunction} />
     </div>
   );
 }
 
 interface MoreMenuProps {
-  resumeId: string;
+  mealplanId: string;
   onPrintClick: () => void;
 }
 
-function MoreMenu({ resumeId, onPrintClick }: MoreMenuProps) {
+function MoreMenu({ mealplanId, onPrintClick }: MoreMenuProps) {
   const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
 
   return (
@@ -114,7 +114,7 @@ function MoreMenu({ resumeId, onPrintClick }: MoreMenuProps) {
         </DropdownMenuContent>
       </DropdownMenu>
       <DeleteConfirmationDialog
-        resumeId={resumeId}
+        mealplanId={mealplanId}
         open={showDeleteConfirmation}
         onOpenChange={setShowDeleteConfirmation}
       />
@@ -123,7 +123,7 @@ function MoreMenu({ resumeId, onPrintClick }: MoreMenuProps) {
 }
 
 interface DeleteConfirmationDialogProps {
-  resumeId: string;
+  mealplanId: string;
   open: boolean;
   onOpenChange: (open: boolean) => void;
 }
@@ -131,7 +131,7 @@ interface DeleteConfirmationDialogProps {
 function DeleteConfirmationDialog({
   onOpenChange,
   open,
-  resumeId,
+  mealplanId,
 }: DeleteConfirmationDialogProps) {
   const { toast } = useToast();
 
@@ -141,7 +141,7 @@ function DeleteConfirmationDialog({
   async function handleDelete() {
     startTransition(async () => {
       try {
-        await deleteResume(resumeId);
+        await deleteResume(mealplanId);
         onOpenChange(false);
       } catch (error) {
         console.log(error);

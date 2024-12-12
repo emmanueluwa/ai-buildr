@@ -18,16 +18,16 @@ export default function Home() {
         <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl">
           Create a{" "}
           <span className="inline-block bg-gradient-to-r from-yellow-600 to-yellow-400 bg-clip-text text-transparent">
-            Document
+            Meal Plan
           </span>{" "}
           in Minutes
         </h1>
         <p className="text-lg text-gray-500">
-          Our <span className="font-bold">AI Buildr</span> helps you design a
-          scientifically backed... based on your needs.
+          Our <span className="font-bold">Meal Buildr</span> helps you design a
+          scientifically backed meal plan based on your needs.
         </p>
         <Button asChild size="lg" variant="premium">
-          <Link href="/resumes">Get started</Link>
+          <Link href="/mealplans">Get started</Link>
         </Button>
       </div>
       <div>
