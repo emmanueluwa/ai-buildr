@@ -14,7 +14,37 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Resume {
+// model Resume {
+//   id     String @id @default(cuid())
+//   userId String
+
+//   title       String?
+//   description String?
+
+//   photoUrl    String?
+//   colorHex    String  @default("#000000")
+//   borderStyle String  @default("squircle")
+//   summary     String?
+//   firstName   String?
+//   lastName    String?
+//   jobTitle    String?
+//   city        String?
+//   country     String?
+//   phone       String?
+//   email       String?
+
+//   WorkExperience WorkExperience[]
+//   Education      Eduction[]
+//   Skills         String[]
+
+//   createdAt DateTime @default(now())
+//   updatedAt DateTime @updatedAt
+
+//   @@map("resumes")
+// }
+
+// Meal Plan model
+model MealPlan {
   id     String @id @default(cuid())
   userId String
 
@@ -25,58 +55,47 @@ model Resume {
   colorHex    String  @default("#000000")
   borderStyle String  @default("squircle")
   summary     String?
-  firstName   String?
-  lastName    String?
-  jobTitle    String?
-  city        String?
-  country     String?
-  phone       String?
-  email       String?
 
-  WorkExperience WorkExperience[]
-  Education      Eduction[]
-  Skills         String[]
+  Goal              Goal[]
+  LifestyleHealth   LifestyleHealth[]
+  FeedingPreference String[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-
-  @@map("resumes")
 }
 
-model WorkExperience {
+model LifestyleHealth {
   id String @id @default(cuid())
 
-  position    String?
-  company     String?
-  startDate   DateTime?
-  endDate     DateTime?
-  description String?
+  name     String?
+  breed    String?
+  age      Float?
+  weight   Float?
+  activity String?
+  health   String?
+  diet     String?
 
-  resumeId String
-  //get all work experience when resume is fetched
-  resume   Resume @relation(fields: [resumeId], references: [id], onDelete: Cascade)
+  mealPlanId String
+  mealPlan   MealPlan @relation(fields: [mealPlanId], references: [id], onDelete: Cascade)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  @@map("work_experience")
+  @@map("lifestyle_health")
 }
 
-model Eduction {
+model Goal {
   id String @id @default(cuid())
 
-  degree    String?
-  school    String?
-  startDate DateTime?
-  endDate   DateTime?
+  goal             String?
+  budget           String?
+  preferred_source String
 
-  resumeId String
-  resume   Resume @relation(fields: [resumeId], references: [id], onDelete: Cascade)
+  mealPlanId String
+  mealPlan   MealPlan @relation(fields: [mealPlanId], references: [id], onDelete: Cascade)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-
-  @@map("education")
 }
 
 model UserSubscription {
@@ -93,3 +112,83 @@ model UserSubscription {
 
   @@map("user_subscriptions")
 }
+
+// model Resume {
+//   id     String @id @default(cuid())
+//   userId String
+
+//   title       String?
+//   description String?
+
+//   photoUrl    String?
+//   colorHex    String  @default("#000000")
+//   borderStyle String  @default("squircle")
+//   summary     String?
+//   firstName   String?
+//   lastName    String?
+//   jobTitle    String?
+//   city        String?
+//   country     String?
+//   phone       String?
+//   email       String?
+
+//   WorkExperience WorkExperience[]
+//   Education      Eduction[]
+//   Skills         String[]
+
+//   createdAt DateTime @default(now())
+//   updatedAt DateTime @updatedAt
+
+//   @@map("resumes")
+// }
+
+// model WorkExperience {
+//   id String @id @default(cuid())
+
+//   position    String?
+//   company     String?
+//   startDate   DateTime?
+//   endDate     DateTime?
+//   description String?
+
+//   resumeId String
+//   //get all work experience when resume is fetched
+//   resume   Resume @relation(fields: [resumeId], references: [id], onDelete: Cascade)
+
+//   createdAt DateTime @default(now())
+//   updatedAt DateTime @updatedAt
+
+//   @@map("work_experience")
+// }
+
+// model Eduction {
+//   id String @id @default(cuid())
+
+//   degree    String?
+//   school    String?
+//   startDate DateTime?
+//   endDate   DateTime?
+
+//   resumeId String
+//   resume   Resume @relation(fields: [resumeId], references: [id], onDelete: Cascade)
+
+//   createdAt DateTime @default(now())
+//   updatedAt DateTime @updatedAt
+
+//   @@map("education")
+// }
+
+// model UserSubscription {
+//   id                      String   @id @default(cuid())
+//   userId                  String   @unique
+//   stripeCustomerId        String   @unique
+//   stripeSubscriptionId    String   @unique
+//   stripePriceId           String
+//   stripeCurrentPeriodEnd  DateTime
+//   stripeCancelAtPeriodEnd Boolean  @default(false)
+
+//   createdAt DateTime @default(now())
+//   updatedAt DateTime @updatedAt
+
+//   @@map("user_subscriptions")
+// }
