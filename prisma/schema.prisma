@@ -55,6 +55,11 @@ model MealPlan {
   colorHex    String  @default("#000000")
   borderStyle String  @default("squircle")
   summary     String?
+  name        String?
+  breed       String?
+  age         String?
+  weight      String?
+  sex         String?
 
   Goal              Goal[]
   LifestyleHealth   LifestyleHealth[]
@@ -69,10 +74,6 @@ model MealPlan {
 model LifestyleHealth {
   id String @id @default(cuid())
 
-  name     String?
-  breed    String?
-  age      Float?
-  weight   Float?
   activity String?
   health   String?
   diet     String?

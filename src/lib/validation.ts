@@ -9,7 +9,7 @@ export const generalInfoSchema = z.object({
 
 export type GeneralInfoValues = z.infer<typeof generalInfoSchema>;
 
-export const personalInfoSchema = z.object({
+export const backgroundInfoSchema = z.object({
   photo: z
     .custom<File | undefined>()
     .refine(
@@ -21,58 +21,55 @@ export const personalInfoSchema = z.object({
       (file) => !file || file.size <= 1024 * 1024 * 4,
       "File must be less than 4MB",
     ),
-  firstName: optionalString,
-  lastName: optionalString,
-  jobTitle: optionalString,
-  city: optionalString,
-  country: optionalString,
-  phone: optionalString,
-  email: optionalString,
+  name: optionalString,
+  breed: optionalString,
+  age: optionalString,
+  weight: optionalString,
+  sex: optionalString,
 });
 
-export type PersonalInfoValues = z.infer<typeof personalInfoSchema>;
+export type BackgroundInfoValues = z.infer<typeof backgroundInfoSchema>;
 
-export const workExperienceSchema = z.object({
-  workExperience: z
+export const lifestyleHealthSchema = z.object({
+  lifestyleHealth: z
     .array(
       z.object({
-        position: optionalString,
-        company: optionalString,
-        startDate: optionalString,
-        endDate: optionalString,
-        description: optionalString,
+        activity: optionalString,
+        health: optionalString,
+        diet: optionalString,
       }),
     )
     .optional(),
 });
 
-export type WorkExperienceValues = z.infer<typeof workExperienceSchema>;
+export type LifestyleHealthValues = z.infer<typeof lifestyleHealthSchema>;
 
 //reach into schema for type of inner object
-export type WorkExperience = NonNullable<
-  z.infer<typeof workExperienceSchema>["workExperience"]
+export type LifestyleHealth = NonNullable<
+  z.infer<typeof lifestyleHealthSchema>["lifestyleHealth"]
 >[number];
 
-export const educationSchema = z.object({
-  education: z
+export const goalSchema = z.object({
+  goal: z
     .array(
       z.object({
-        degree: optionalString,
-        school: optionalString,
-        startDate: optionalString,
-        endDate: optionalString,
+        goal: optionalString,
+        budget: optionalString,
+        preferred_source: optionalString,
       }),
     )
     .optional(),
 });
 
-export type EducationValues = z.infer<typeof educationSchema>;
+export type GoalValues = z.infer<typeof goalSchema>;
 
-export const skillsSchema = z.object({
-  skills: z.array(z.string().trim()).optional(),
+export const feedingPreferencesSchema = z.object({
+  feedingPreferences: z.array(z.string().trim()).optional(),
 });
 
-export type SkillsValues = z.infer<typeof skillsSchema>;
+export type FeedingPreferencesSchemaValues = z.infer<
+  typeof feedingPreferencesSchema
+>;
 
 export const summarySchema = z.object({
   summary: optionalString,
@@ -80,18 +77,18 @@ export const summarySchema = z.object({
 
 export type SummaryValues = z.infer<typeof summarySchema>;
 
-export const resumeSchema = z.object({
+export const mealplanSchema = z.object({
   ...generalInfoSchema.shape,
-  ...personalInfoSchema.shape,
-  ...workExperienceSchema.shape,
-  ...educationSchema.shape,
-  ...skillsSchema.shape,
+  ...backgroundInfoSchema.shape,
+  ...lifestyleHealthSchema.shape,
+  ...goalSchema.shape,
+  ...feedingPreferencesSchema.shape,
   ...summarySchema.shape,
   colorHex: optionalString,
   borderStyle: optionalString,
 });
 
-export type ResumeValues = Omit<z.infer<typeof resumeSchema>, "photo"> & {
+export type MealplanValues = Omit<z.infer<typeof mealplanSchema>, "photo"> & {
   id?: string;
   photo?: File | string | null;
 };
@@ -110,9 +107,11 @@ export type GenerateWorkExperienceInput = z.infer<
 
 export const generateSummarySchema = z.object({
   jobTitle: optionalString,
-  ...workExperienceSchema.shape,
-  ...educationSchema.shape,
-  ...skillsSchema.shape,
+  ...backgroundInfoSchema.shape,
+  ...lifestyleHealthSchema.shape,
+  ...goalSchema.shape,
+  ...feedingPreferencesSchema.shape,
+  ...summarySchema.shape,
 });
 
 export type GenerateSummaryInput = z.infer<typeof generateSummarySchema>;

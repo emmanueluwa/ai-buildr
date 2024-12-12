@@ -1,7 +1,7 @@
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
-import { ResumeServerData } from "./types";
-import { ResumeValues } from "./validation";
+import { MealplanServerData } from "./types";
+import { MealplanValues } from "./validation";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -18,33 +18,28 @@ export function fileReplacer(key: unknown, value: unknown) {
     : value;
 }
 
-export function mapToResumeValues(data: ResumeServerData): ResumeValues {
+export function mapToMealplanValues(data: MealplanServerData): MealplanValues {
   return {
     id: data.id,
     title: data.title || undefined,
     description: data.description || undefined,
     photo: data.photoUrl || undefined,
-    firstName: data.firstName || undefined,
-    lastName: data.lastName || undefined,
-    jobTitle: data.jobTitle || undefined,
-    city: data.city || undefined,
-    country: data.country || undefined,
-    phone: data.phone || undefined,
-    email: data.email || undefined,
-    workExperience: data.WorkExperience.map((experience) => ({
-      description: experience.description || undefined,
-      position: experience.position || undefined,
-      company: experience.company || undefined,
-      endDate: experience.endDate?.toISOString().split("T")[0] || undefined,
-      startDate: experience.startDate?.toISOString().split("T")[0] || undefined,
+    name: data.name || undefined,
+    breed: data.breed || undefined,
+    age: data.age || undefined,
+    weight: data.weight || undefined,
+    sex: data.sex || undefined,
+    lifestyleHealth: data.LifestyleHealth.map((lifestyle) => ({
+      activity: lifestyle.activity || undefined,
+      health: lifestyle.health || undefined,
+      diet: lifestyle.diet || undefined,
     })),
-    education: data.Education.map((education) => ({
-      degree: education.degree || undefined,
-      school: education.school || undefined,
-      endDate: education.endDate?.toISOString().split("T")[0] || undefined,
-      startDate: education.startDate?.toISOString().split("T")[0] || undefined,
+    goal: data.Goal.map((goal) => ({
+      goal: goal.goal || undefined,
+      budget: goal.budget || undefined,
+      preferred_source: goal.preferred_source,
     })),
-    skills: data.Skills,
+    feedingPreferences: data.FeedingPreference,
     borderStyle: data.borderStyle,
     colorHex: data.colorHex,
     summary: data.summary || undefined,

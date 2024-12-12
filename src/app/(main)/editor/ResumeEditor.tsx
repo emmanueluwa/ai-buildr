@@ -7,19 +7,19 @@ import Footer from "./Footer";
 import { useState } from "react";
 import { ResumeValues } from "@/lib/validation";
 import ResumePreviewSection from "./ResumePreviewSection";
-import { cn, mapToResumeValues } from "@/lib/utils";
+import { cn, mapToMealplanValues } from "@/lib/utils";
 import useUnloadWarning from "@/hooks/useUnloadWarning";
 import useAutoSaveResume from "./useAutoSaveResume";
-import { ResumeServerData } from "@/lib/types";
+import { MealplanServerData } from "@/lib/types";
 
-interface ResumeEditorProps {
-  resumeToEdit: ResumeServerData | null;
+interface MealplanEditorProps {
+  mealplanToEdit: MealplanServerData | null;
 }
 
-export default function ResumeEditor({ resumeToEdit }: ResumeEditorProps) {
+export default function ResumeEditor({ mealplanToEdit }: MealplanEditorProps) {
   const searchParams = useSearchParams();
   const [resumeData, setResumeData] = useState<ResumeValues>(
-    resumeToEdit ? mapToResumeValues(resumeToEdit) : {},
+    mealplanToEdit ? mapToMealplanValues(mealplanToEdit) : {},
   );
 
   const [showSmallResumePreview, setShowSmallResumePreview] = useState(false);
@@ -45,10 +45,10 @@ export default function ResumeEditor({ resumeToEdit }: ResumeEditorProps) {
   return (
     <div className="flex grow flex-col">
       <header className="space-y-1.5 border-b px-3 py-5 text-center">
-        <h1 className="text-2xl font-bold">Design your resume</h1>
+        <h1 className="text-2xl font-bold">Design your meal plan</h1>
         <p className="text-sm text-muted-foreground">
-          Follow the steps below. For a more personalised response give as much
-          detail as possible.
+          Follow the steps below. The more information you provide the more your
+          meal plan will suit your needs.
         </p>
       </header>
 
