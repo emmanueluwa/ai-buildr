@@ -25,6 +25,7 @@ export const backgroundInfoSchema = z.object({
   breed: optionalString,
   age: optionalString,
   weight: optionalString,
+  reproduction: optionalString,
   sex: optionalString,
 });
 

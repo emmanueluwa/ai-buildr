@@ -60,8 +60,17 @@ interface MealplanSectionProps {
 }
 
 function BackgroundInfoHeader({ mealplanData }: MealplanSectionProps) {
-  const { name, breed, age, weight, sex, photo, colorHex, borderStyle } =
-    mealplanData;
+  const {
+    name,
+    breed,
+    age,
+    weight,
+    reproduction,
+    sex,
+    photo,
+    colorHex,
+    borderStyle,
+  } = mealplanData;
 
   const [photoSrc, setPhotoSrc] = useState(photo instanceof File ? "" : photo);
 
@@ -101,7 +110,7 @@ function BackgroundInfoHeader({ mealplanData }: MealplanSectionProps) {
             {name} {age}
           </p>
           <p className="font-medium" style={{ color: colorHex }}>
-            {breed}
+            {breed} {reproduction}
           </p>
         </div>
         <p className="text-xs text-gray-500">

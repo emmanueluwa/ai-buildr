@@ -25,6 +25,7 @@ export default function BackgroundInfoForm({
       breed: mealplanData.breed || "",
       age: mealplanData.age || "",
       weight: mealplanData.weight || "",
+      reproduction: mealplanData.reproduction || "",
       sex: mealplanData.sex || "",
     },
   });
@@ -120,19 +121,35 @@ export default function BackgroundInfoForm({
               )}
             />
           </div>
-          <FormField
-            control={form.control}
-            name="weight"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Weight</FormLabel>
-                <FormControl>
-                  <Input {...field} />
-                </FormControl>
-                <FormControl />
-              </FormItem>
-            )}
-          />
+          <div className="grid grid-cols-2 gap-3">
+            <FormField
+              control={form.control}
+              name="weight"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Weight</FormLabel>
+                  <FormControl>
+                    <Input {...field} />
+                  </FormControl>
+                  <FormControl />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="reproduction"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Neutered/Spayed</FormLabel>
+                  <FormControl>
+                    <Input {...field} />
+                  </FormControl>
+                  <FormControl />
+                </FormItem>
+              )}
+            />
+          </div>
+
           <div className="grid grid-cols-2 gap-3">
             <FormField
               control={form.control}

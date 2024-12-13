@@ -15,13 +15,13 @@ import { useForm } from "react-hook-form";
 import GenerateSummaryButton from "./GenerateSummaryButton";
 
 export default function SummaryForm({
-  resumeData,
-  setResumeData,
+  mealplanData,
+  setMealplanData,
 }: EditorFormProps) {
   const form = useForm<SummaryValues>({
     resolver: zodResolver(summarySchema),
     defaultValues: {
-      summary: resumeData.summary || "",
+      summary: mealplanData.summary || "",
     },
   });
 
@@ -30,19 +30,19 @@ export default function SummaryForm({
       const isValid = await form.trigger();
       if (!isValid) return;
 
-      setResumeData({ ...resumeData, ...values });
+      setMealplanData({ ...mealplanData, ...values });
     });
 
     return unsubscribe;
-  }, [form, resumeData, setResumeData]);
+  }, [form, mealplanData, setMealplanData]);
 
   return (
     <div className="mx-auto max-w-xl space-y-6">
       <div className="space-y-1.5 text-center">
-        <h2 className="text-2xl font-semibold">Professional Summary</h2>
+        <h2 className="text-2xl font-semibold">Summary</h2>
         <p className="text-sm text-muted-foreground">
-          Write a short intro or let Greta generate on from your given
-          information.
+          Write a short intro about the aim of this meal plan or let Greta
+          generate on from your given information.
         </p>
       </div>
       <Form {...form}>
@@ -58,7 +58,7 @@ export default function SummaryForm({
                 </FormControl>
                 <FormMessage />
                 <GenerateSummaryButton
-                  resumeData={resumeData}
+                  mealplanData={mealplanData}
                   onSummaryGenerated={(summary) =>
                     form.setValue("summary", summary)
                   }

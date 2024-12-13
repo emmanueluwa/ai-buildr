@@ -51,15 +51,16 @@ model MealPlan {
   title       String?
   description String?
 
-  photoUrl    String?
-  colorHex    String  @default("#000000")
-  borderStyle String  @default("squircle")
-  summary     String?
-  name        String?
-  breed       String?
-  age         String?
-  weight      String?
-  sex         String?
+  photoUrl     String?
+  colorHex     String  @default("#000000")
+  borderStyle  String  @default("squircle")
+  summary      String?
+  name         String?
+  breed        String?
+  reproduction String?
+  age          String?
+  weight       String?
+  sex          String?
 
   Goal               Goal[]
   LifestyleHealth    LifestyleHealth[]

@@ -166,7 +166,7 @@ function EducationItem({ id, form, index, remove }: EducationItemProps) {
       }}
     >
       <div className="flex justify-between gap-2">
-        <span className="font-semibold">Education {index + 1}</span>
+        <span className="font-semibold">Goal {index + 1}</span>
         <GripHorizontal
           className="size-5 cursor-grab text-muted-foreground focus:outline-none"
           {...attributes}
@@ -205,7 +205,7 @@ function EducationItem({ id, form, index, remove }: EducationItemProps) {
         name={`goal.${index}.preferred_source`}
         render={({ field }) => (
           <FormItem>
-            <FormLabel>Preferred source</FormLabel>
+            <FormLabel>Preferred source/ingredients e.g raw diet</FormLabel>
             <FormControl>
               <Input {...field} />
             </FormControl>

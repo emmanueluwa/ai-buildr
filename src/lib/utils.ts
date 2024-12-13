@@ -28,6 +28,7 @@ export function mapToMealplanValues(data: MealplanServerData): MealplanValues {
     breed: data.breed || undefined,
     age: data.age || undefined,
     weight: data.weight || undefined,
+    reproduction: data.reproduction || undefined,
     sex: data.sex || undefined,
     lifestyleHealth: data.LifestyleHealth.map((lifestyle) => ({
       activity: lifestyle.activity || undefined,

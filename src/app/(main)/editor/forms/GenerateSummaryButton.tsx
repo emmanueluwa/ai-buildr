@@ -1,6 +1,6 @@
 import LoadingButton from "@/components/LoadingButton";
 import { useToast } from "@/hooks/use-toast";
-import { ResumeValues } from "@/lib/validation";
+import { MealplanValues } from "@/lib/validation";
 import { WandSparkles } from "lucide-react";
 import { useState } from "react";
 import { generateSummary } from "./actions";
@@ -9,13 +9,13 @@ import usePremiumModal from "@/hooks/usePremiumModal";
 import { canUseAITools } from "@/lib/permissions";
 
 interface GenerateSummaryButtonProps {
-  resumeData: ResumeValues;
+  mealplanData: MealplanValues;
   onSummaryGenerated: (summary: string) => void;
 }
 
 export default function GenerateSummaryButton({
   onSummaryGenerated,
-  resumeData,
+  mealplanData,
 }: GenerateSummaryButtonProps) {
   const subscriptionLevel = useSubscriptionLevel();
 
@@ -33,7 +33,7 @@ export default function GenerateSummaryButton({
 
     try {
       setLoading(true);
-      const aiResponse = await generateSummary(resumeData);
+      const aiResponse = await generateSummary(mealplanData);
       onSummaryGenerated(aiResponse);
     } catch (error) {
       console.log(error);
