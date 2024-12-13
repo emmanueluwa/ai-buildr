@@ -9,19 +9,22 @@ import {
 } from "@/components/ui/form";
 import { Textarea } from "@/components/ui/textarea";
 import { EditorFormProps } from "@/lib/types";
-import { skillsSchema, SkillsValues } from "@/lib/validation";
+import {
+  feedingPreferenceSchema,
+  FeedingPreferenceValues,
+} from "@/lib/validation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 
 export default function SkillsForm({
-  resumeData,
-  setResumeData,
+  mealplanData,
+  setMealplanData,
 }: EditorFormProps) {
-  const form = useForm<SkillsValues>({
-    resolver: zodResolver(skillsSchema),
+  const form = useForm<FeedingPreferenceValues>({
+    resolver: zodResolver(feedingPreferenceSchema),
     defaultValues: {
-      skills: resumeData.skills || [],
+      feedingPrefrence: mealplanData.feedingPreferences || [],
     },
   });
 

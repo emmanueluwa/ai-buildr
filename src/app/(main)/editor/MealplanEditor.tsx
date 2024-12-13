@@ -66,8 +66,8 @@ export default function MealplanEditor({
             <Breadcrumbs currentStep={currentStep} setCurrentStep={setStep} />
             {FormComponent && (
               <FormComponent
-                resumeData={mealplanData}
-                setResumeData={setMealplanData}
+                mealplanData={mealplanData}
+                setMealplanData={setMealplanData}
               />
             )}
           </div>

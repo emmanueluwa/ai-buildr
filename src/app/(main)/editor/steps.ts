@@ -1,10 +1,10 @@
 import { EditorFormProps } from "@/lib/types";
 import GeneralInfoForm from "./forms/GeneralInfoForm";
-import PersonalInfoForm from "./forms/PersonalInfoForm";
-import WorkExperienceForm from "./forms/WorkExperienceForm";
-import EducationForm from "./forms/EducationForm";
-import SkillsForm from "./forms/SkillsForm";
+import BackgroundInfoForm from "./forms/BackgroundInfoForm";
+import LifestyleHealthForm from "./forms/LifestyleHealth";
+import FeedingPreferencesForm from "./forms/FeedingPreferenceForm";
 import SummaryForm from "./forms/SummaryForm";
+import GoalForm from "./forms/GoalForm";
 
 export const steps: {
   title: string;
@@ -12,21 +12,25 @@ export const steps: {
   key: string;
 }[] = [
   { title: "General", component: GeneralInfoForm, key: "general-info" },
-  { title: "Personal", component: PersonalInfoForm, key: "personal-info" },
   {
-    title: "WorkExperience",
-    component: WorkExperienceForm,
-    key: "workexp-info",
+    title: "Background",
+    component: BackgroundInfoForm,
+    key: "background-info",
   },
   {
-    title: "Education",
-    component: EducationForm,
-    key: "education",
+    title: "Lifestyle Health",
+    component: LifestyleHealthForm,
+    key: "lifestyle-info",
   },
   {
-    title: "Skills",
-    component: SkillsForm,
-    key: "skills",
+    title: "Goal",
+    component: GoalForm,
+    key: "goal",
+  },
+  {
+    title: "Feeding Preferences",
+    component: FeedingPreferencesForm,
+    key: "feedingPreferences",
   },
   { title: "Summary", component: SummaryForm, key: "summary" },
 ];

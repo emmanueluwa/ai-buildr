@@ -11,7 +11,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { EditorFormProps } from "@/lib/types";
-import { workExperienceSchema, WorkExperienceValues } from "@/lib/validation";
+import { lifestyleHealthSchema, LifestyleHealthValues } from "@/lib/validation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { GripHorizontal } from "lucide-react";
 import { useEffect } from "react";
@@ -37,14 +37,14 @@ import { CSS } from "@dnd-kit/utilities";
 import { cn } from "@/lib/utils";
 import GenerateWorkExperienceButton from "./GenerateWorkExperienceButton";
 
-export default function WorkExperienceForm({
-  resumeData,
-  setResumeData,
+export default function LifestyleHealthForm({
+  mealplanData,
+  setMealplanData,
 }: EditorFormProps) {
-  const form = useForm<WorkExperienceValues>({
-    resolver: zodResolver(workExperienceSchema),
+  const form = useForm<LifestyleHealthValues>({
+    resolver: zodResolver(lifestyleHealthSchema),
     defaultValues: {
-      workExperience: resumeData.workExperience || [],
+      lifestyleHealth: mealplanData.lifestyleHealth || [],
     },
   });
 
@@ -54,22 +54,22 @@ export default function WorkExperienceForm({
       if (!isValid) return;
 
       //todo: update resume data
-      setResumeData({
-        ...resumeData,
-        workExperience:
-          values.workExperience?.filter(
-            (experience) => experience !== undefined,
+      setMealplanData({
+        ...mealplanData,
+        lifestyleHealth:
+          values.lifestyleHealth?.filter(
+            (lifestyle) => lifestyle !== undefined,
           ) || [],
       });
     });
 
     //ensuring always only one form watcher
     return unsubscribe;
-  }, [form, resumeData, setResumeData]);
+  }, [form, mealplanData, setMealplanData]);
 
   const { fields, append, remove, move } = useFieldArray({
     control: form.control,
-    name: "workExperience",
+    name: "lifestyleHealth",
   });
 
   const sensors = useSensors(
@@ -110,7 +110,7 @@ export default function WorkExperienceForm({
               strategy={verticalListSortingStrategy}
             >
               {fields.map((field, index) => (
-                <WorkExperienceItem
+                <LifestyleHealthItem
                   id={field.id}
                   key={field.id}
                   index={index}
@@ -125,15 +125,14 @@ export default function WorkExperienceForm({
               type="button"
               onClick={() =>
                 append({
-                  company: "",
+                  activity: "",
+                  diet: "",
+                  health: "",
                   description: "",
-                  endDate: "",
-                  position: "",
-                  startDate: "",
                 })
               }
             >
-              Add experience
+              Add Lifestyle and Health info
             </Button>
           </div>
         </form>
@@ -142,19 +141,19 @@ export default function WorkExperienceForm({
   );
 }
 
-interface WorkExperienceItemProps {
+interface LifestyleHealthItemProps {
   id: string;
-  form: UseFormReturn<WorkExperienceValues>;
+  form: UseFormReturn<LifestyleHealthValues>;
   index: number;
   remove: (index: number) => void;
 }
 
-function WorkExperienceItem({
+function LifestyleHealthItem({
   id,
   form,
   index,
   remove,
-}: WorkExperienceItemProps) {
+}: LifestyleHealthItemProps) {
   const {
     attributes,
     listeners,
@@ -176,7 +175,7 @@ function WorkExperienceItem({
       }}
     >
       <div className="flex justify-between gap-2">
-        <span className="font-semibold">Experience {index + 1}</span>
+        <span className="font-semibold">Lifestyle Health {index + 1}</span>
         <GripHorizontal
           className="size-5 cursor-grab text-muted-foreground focus:outline-none"
           {...attributes}
@@ -186,18 +185,18 @@ function WorkExperienceItem({
 
       <div className="flex justify-center">
         <GenerateWorkExperienceButton
-          onWorkExperienceGenerated={(experience) =>
-            form.setValue(`workExperience.${index}`, experience)
+          onWorkExperienceGenerated={(lifestyle) =>
+            form.setValue(`lifestyleHealth.${index}`, lifestyle)
           }
         />
       </div>
 
       <FormField
         control={form.control}
-        name={`workExperience.${index}.position`}
+        name={`lifestyleHealth.${index}.activity`}
         render={({ field }) => (
           <FormItem>
-            <FormLabel>Job title</FormLabel>
+            <FormLabel>Activity Levels</FormLabel>
             <FormControl>
               <Input {...field} autoFocus />
             </FormControl>
@@ -207,10 +206,10 @@ function WorkExperienceItem({
       />
       <FormField
         control={form.control}
-        name={`workExperience.${index}.company`}
+        name={`lifestyleHealth.${index}.diet`}
         render={({ field }) => (
           <FormItem>
-            <FormLabel>Company</FormLabel>
+            <FormLabel>Diet</FormLabel>
             <FormControl>
               <Input {...field} />
             </FormControl>
@@ -218,50 +217,26 @@ function WorkExperienceItem({
           </FormItem>
         )}
       />
-      <div className="grid grid-cols-2 gap-3">
-        <FormField
-          control={form.control}
-          name={`workExperience.${index}.startDate`}
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Start date</FormLabel>
-              <FormControl>
-                <Input
-                  {...field}
-                  type="date"
-                  //   remove time from date
-                  value={field.value?.slice(0, 10)}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name={`workExperience.${index}.endDate`}
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>End date</FormLabel>
-              <FormControl>
-                <Input
-                  {...field}
-                  type="date"
-                  //   remove time from date
-                  value={field.value?.slice(0, 10)}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-      </div>
+      <FormField
+        control={form.control}
+        name={`lifestyleHealth.${index}.health`}
+        render={({ field }) => (
+          <FormItem>
+            <FormLabel>Health</FormLabel>
+            <FormControl>
+              <Input {...field} />
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        )}
+      />
+
       <FormDescription>
         Leave <span className="font-semibold">end date</span> empty if current
       </FormDescription>
       <FormField
         control={form.control}
-        name={`workExperience.${index}.description`}
+        name={`lifestyleHealth.${index}.description`}
         render={({ field }) => (
           <FormItem>
             <FormLabel>Description</FormLabel>

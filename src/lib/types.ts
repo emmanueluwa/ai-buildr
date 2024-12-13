@@ -2,8 +2,8 @@ import { Prisma } from "@prisma/client";
 import { MealplanValues } from "./validation";
 
 export interface EditorFormProps {
-  resumeData: MealplanValues;
-  setResumeData: (data: MealplanValues) => void;
+  mealplanData: MealplanValues;
+  setMealplanData: (data: MealplanValues) => void;
 }
 
 export const mealplanDataInclude = {

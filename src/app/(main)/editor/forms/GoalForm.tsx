@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { EditorFormProps } from "@/lib/types";
-import { educationSchema, EducationValues } from "@/lib/validation";
+import { goalSchema, GoalValues } from "@/lib/validation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { GripHorizontal } from "lucide-react";
 import { useEffect } from "react";
@@ -34,14 +34,14 @@ import { restrictToVerticalAxis } from "@dnd-kit/modifiers";
 import { CSS } from "@dnd-kit/utilities";
 import { cn } from "@/lib/utils";
 
-export default function EducationForm({
-  resumeData,
-  setResumeData,
+export default function GoalForm({
+  mealplanData,
+  setMealplanData,
 }: EditorFormProps) {
-  const form = useForm<EducationValues>({
-    resolver: zodResolver(educationSchema),
+  const form = useForm<GoalValues>({
+    resolver: zodResolver(goalSchema),
     defaultValues: {
-      education: resumeData.education || [],
+      goal: mealplanData.goal || [],
     },
   });
 
@@ -51,21 +51,19 @@ export default function EducationForm({
       if (!isValid) return;
 
       //todo: update resume data
-      setResumeData({
-        ...resumeData,
-        education:
-          values.education?.filter((education) => education !== undefined) ||
-          [],
+      setMealplanData({
+        ...mealplanData,
+        goal: values.goal?.filter((goal) => goal !== undefined) || [],
       });
     });
 
     //ensuring always only one form watcher
     return unsubscribe;
-  }, [form, resumeData, setResumeData]);
+  }, [form, mealplanData, setMealplanData]);
 
   const { fields, append, remove, move } = useFieldArray({
     control: form.control,
-    name: "education",
+    name: "goal",
   });
 
   const sensors = useSensors(
@@ -121,14 +119,13 @@ export default function EducationForm({
               type="button"
               onClick={() =>
                 append({
-                  degree: "",
-                  endDate: "",
-                  school: "",
-                  startDate: "",
+                  budget: "",
+                  goal: "",
+                  preferred_source: "",
                 })
               }
             >
-              Add education
+              Add goal
             </Button>
           </div>
         </form>
@@ -139,7 +136,7 @@ export default function EducationForm({
 
 interface EducationItemProps {
   id: string;
-  form: UseFormReturn<EducationValues>;
+  form: UseFormReturn<GoalValues>;
   index: number;
   remove: (index: number) => void;
 }
@@ -177,10 +174,10 @@ function EducationItem({ id, form, index, remove }: EducationItemProps) {
 
       <FormField
         control={form.control}
-        name={`education.${index}.degree`}
+        name={`goal.${index}.budget`}
         render={({ field }) => (
           <FormItem>
-            <FormLabel>Degree</FormLabel>
+            <FormLabel>Budget</FormLabel>
             <FormControl>
               <Input {...field} autoFocus />
             </FormControl>
@@ -190,10 +187,10 @@ function EducationItem({ id, form, index, remove }: EducationItemProps) {
       />
       <FormField
         control={form.control}
-        name={`education.${index}.school`}
+        name={`goal.${index}.goal`}
         render={({ field }) => (
           <FormItem>
-            <FormLabel>School</FormLabel>
+            <FormLabel>Goal</FormLabel>
             <FormControl>
               <Input {...field} />
             </FormControl>
@@ -201,44 +198,19 @@ function EducationItem({ id, form, index, remove }: EducationItemProps) {
           </FormItem>
         )}
       />
-      <div className="grid grid-cols-2 gap-3">
-        <FormField
-          control={form.control}
-          name={`education.${index}.startDate`}
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Start date</FormLabel>
-              <FormControl>
-                <Input
-                  {...field}
-                  type="date"
-                  //   remove time from date
-                  value={field.value ? field.value.slice(0, 10) : ""}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name={`education.${index}.endDate`}
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>End date</FormLabel>
-              <FormControl>
-                <Input
-                  {...field}
-                  type="date"
-                  //   remove time from date
-                  value={field.value ? field.value.slice(0, 10) : ""}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-      </div>
+      <FormField
+        control={form.control}
+        name={`goal.${index}.preferred_source`}
+        render={({ field }) => (
+          <FormItem>
+            <FormLabel>Preferred source</FormLabel>
+            <FormControl>
+              <Input {...field} />
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        )}
+      />
       <Button variant="destructive" type="button" onClick={() => remove(index)}>
         Remove
       </Button>

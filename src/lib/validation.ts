@@ -37,6 +37,7 @@ export const lifestyleHealthSchema = z.object({
         activity: optionalString,
         health: optionalString,
         diet: optionalString,
+        description: optionalString,
       }),
     )
     .optional(),

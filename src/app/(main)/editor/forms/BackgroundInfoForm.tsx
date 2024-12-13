@@ -9,25 +9,23 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { EditorFormProps } from "@/lib/types";
-import { personalInfoSchema, PersonalInfoValues } from "@/lib/validation";
+import { backgroundInfoSchema, BackgroundInfoValues } from "@/lib/validation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useRef } from "react";
 import { useForm } from "react-hook-form";
 
-export default function PersonalInfoForm({
-  resumeData,
-  setResumeData,
+export default function BackgroundInfoForm({
+  mealplanData,
+  setMealplanData,
 }: EditorFormProps) {
-  const form = useForm<PersonalInfoValues>({
-    resolver: zodResolver(personalInfoSchema),
+  const form = useForm<BackgroundInfoValues>({
+    resolver: zodResolver(backgroundInfoSchema),
     defaultValues: {
-      firstName: resumeData.firstName || "",
-      lastName: resumeData.lastName || "",
-      city: resumeData.city || "",
-      country: resumeData.country || "",
-      email: resumeData.email || "",
-      jobTitle: resumeData.jobTitle || "",
-      phone: resumeData.phone || "",
+      name: mealplanData.name || "",
+      breed: mealplanData.breed || "",
+      age: mealplanData.age || "",
+      weight: mealplanData.weight || "",
+      sex: mealplanData.sex || "",
     },
   });
 
@@ -37,20 +35,23 @@ export default function PersonalInfoForm({
       if (!isValid) return;
 
       //todo: update resume data
-      setResumeData({ ...resumeData, ...values });
+      setMealplanData({ ...mealplanData, ...values });
     });
 
     //ensuring always only one form watcher
     return unsubscribe;
-  }, [form, resumeData, setResumeData]);
+  }, [form, mealplanData, setMealplanData]);
 
   const photoInputRef = useRef<HTMLInputElement>(null);
 
   return (
     <div className="mx-auto max-w-xl space-y-6">
       <div className="tet-center space-y-1.5">
-        <h2 className="text-2xl font-semibold">Personal info</h2>
-        <p className="text-sm text-muted-foreground">Tell us about yourself</p>
+        <h2 className="text-2xl font-semibold">Background info</h2>
+        <p className="text-sm text-muted-foreground">
+          Tell us about your pet. If you are unsure about any of your answers
+          just describe what you can see or know in as much detail as possible.
+        </p>
       </div>
 
       <Form {...form}>
@@ -94,10 +95,10 @@ export default function PersonalInfoForm({
           <div className="grid grid-cols-2 gap-3">
             <FormField
               control={form.control}
-              name="firstName"
+              name="name"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>First name</FormLabel>
+                  <FormLabel>Name</FormLabel>
                   <FormControl>
                     <Input {...field} />
                   </FormControl>
@@ -107,10 +108,10 @@ export default function PersonalInfoForm({
             />
             <FormField
               control={form.control}
-              name="lastName"
+              name="breed"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Last name</FormLabel>
+                  <FormLabel>Breed</FormLabel>
                   <FormControl>
                     <Input {...field} />
                   </FormControl>
@@ -121,10 +122,10 @@ export default function PersonalInfoForm({
           </div>
           <FormField
             control={form.control}
-            name="jobTitle"
+            name="weight"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Job title</FormLabel>
+                <FormLabel>Weight</FormLabel>
                 <FormControl>
                   <Input {...field} />
                 </FormControl>
@@ -135,10 +136,10 @@ export default function PersonalInfoForm({
           <div className="grid grid-cols-2 gap-3">
             <FormField
               control={form.control}
-              name="city"
+              name="age"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>City</FormLabel>
+                  <FormLabel>Age</FormLabel>
                   <FormControl>
                     <Input {...field} />
                   </FormControl>
@@ -148,10 +149,10 @@ export default function PersonalInfoForm({
             />
             <FormField
               control={form.control}
-              name="country"
+              name="sex"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Country</FormLabel>
+                  <FormLabel>Sex</FormLabel>
                   <FormControl>
                     <Input {...field} />
                   </FormControl>
@@ -160,32 +161,6 @@ export default function PersonalInfoForm({
               )}
             />
           </div>
-          <FormField
-            control={form.control}
-            name="phone"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Phone</FormLabel>
-                <FormControl>
-                  <Input {...field} type="tel" />
-                </FormControl>
-                <FormControl />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="email"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Email</FormLabel>
-                <FormControl>
-                  <Input {...field} type="email" />
-                </FormControl>
-                <FormControl />
-              </FormItem>
-            )}
-          />
         </form>
       </Form>
     </div>

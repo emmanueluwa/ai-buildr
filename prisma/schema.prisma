@@ -61,9 +61,9 @@ model MealPlan {
   weight      String?
   sex         String?
 
-  Goal              Goal[]
-  LifestyleHealth   LifestyleHealth[]
-  FeedingPreference String[]
+  Goal               Goal[]
+  LifestyleHealth    LifestyleHealth[]
+  FeedingPreferences String[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -74,9 +74,10 @@ model MealPlan {
 model LifestyleHealth {
   id String @id @default(cuid())
 
-  activity String?
-  health   String?
-  diet     String?
+  activity    String?
+  health      String?
+  diet        String?
+  description String?
 
   mealPlanId String
   mealPlan   MealPlan @relation(fields: [mealPlanId], references: [id], onDelete: Cascade)
