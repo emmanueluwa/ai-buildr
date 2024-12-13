@@ -74,13 +74,13 @@ body {
 
 /* pdf functionality */
 @media print {
-  #resumePreviewContent {
+  #mealplanPreviewContent {
     zoom: 1 !important;
     padding: 0;
   }
 }
 
-#resumePreviewContent {
+#mealplanPreviewContent {
   font-family: Inter;
 }
 

@@ -5,7 +5,7 @@ import { auth } from "@clerk/nextjs/server";
 import { mealplanDataInclude } from "@/lib/types";
 
 interface PageProps {
-  searchParams: Promise<{ resumeId?: string }>;
+  searchParams: Promise<{ mealplanId?: string }>;
 }
 
 export const metadata: Metadata = {
@@ -13,16 +13,16 @@ export const metadata: Metadata = {
 };
 
 export default async function Page({ searchParams }: PageProps) {
-  const { resumeId } = await searchParams;
+  const { mealplanId } = await searchParams;
 
   const { userId } = await auth();
   if (!userId) {
     return null;
   }
 
-  const mealplanToEdit = resumeId
+  const mealplanToEdit = mealplanId
     ? await prisma.mealPlan.findUnique({
-        where: { id: resumeId, userId },
+        where: { id: mealplanId, userId },
         include: mealplanDataInclude,
       })
     : null;

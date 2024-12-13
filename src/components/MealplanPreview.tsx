@@ -1,23 +1,22 @@
 import useDimensions from "@/hooks/useDimensions";
 import { cn } from "@/lib/utils";
-import { ResumeValues } from "@/lib/validation";
+import { MealplanValues } from "@/lib/validation";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
-import { formatDate } from "date-fns";
 import { Badge } from "./ui/badge";
 import { BorderStyles } from "@/app/(main)/editor/BorderStyleButton";
 
-interface ResumePreviewProps {
-  resumeData: ResumeValues;
+interface MealplanPreviewProps {
+  mealplanData: MealplanValues;
   contentRef?: React.Ref<HTMLDivElement>;
   className?: string;
 }
 
 export default function ResumePreview({
-  resumeData,
+  mealplanData,
   contentRef,
   className,
-}: ResumePreviewProps) {
+}: MealplanPreviewProps) {
   const containerRef = useRef<HTMLDivElement>(null);
 
   const { width } = useDimensions(containerRef);
@@ -38,41 +37,31 @@ export default function ResumePreview({
           zoom: (1 / 794) * width,
         }}
         ref={contentRef}
-        id="resumePreviewContent"
+        id="mealplanPreviewContent"
       >
         {/* <pre>{JSON.stringify(resumeData, null, 2)}</pre> */}
 
-        <PersonalInfoHeader resumeData={resumeData} />
+        <BackgroundInfoHeader mealplanData={mealplanData} />
 
-        <SummarySection resumeData={resumeData} />
+        <SummarySection mealplanData={mealplanData} />
 
-        <WorkExperienceSection resumeData={resumeData} />
+        <LifestyleHealthSection mealplanData={mealplanData} />
 
-        <EducationSection resumeData={resumeData} />
+        <GoalSection mealplanData={mealplanData} />
 
-        <SkillsSection resumeData={resumeData} />
+        <FeedingPreferencesSection mealplanData={mealplanData} />
       </div>
     </div>
   );
 }
 
-interface ResumeSectionProps {
-  resumeData: ResumeValues;
+interface MealplanSectionProps {
+  mealplanData: MealplanValues;
 }
 
-function PersonalInfoHeader({ resumeData }: ResumeSectionProps) {
-  const {
-    city,
-    country,
-    email,
-    firstName,
-    lastName,
-    jobTitle,
-    phone,
-    photo,
-    colorHex,
-    borderStyle,
-  } = resumeData;
+function BackgroundInfoHeader({ mealplanData }: MealplanSectionProps) {
+  const { name, breed, age, weight, sex, photo, colorHex, borderStyle } =
+    mealplanData;
 
   const [photoSrc, setPhotoSrc] = useState(photo instanceof File ? "" : photo);
 
@@ -109,26 +98,22 @@ function PersonalInfoHeader({ resumeData }: ResumeSectionProps) {
       <div className="space-y-2.5">
         <div className="space-y-1">
           <p className="text-3xl font-bold" style={{ color: colorHex }}>
-            {firstName} {lastName}
+            {name} {age}
           </p>
           <p className="font-medium" style={{ color: colorHex }}>
-            {jobTitle}
+            {breed}
           </p>
         </div>
         <p className="text-xs text-gray-500">
-          {city}
-          {city && country ? ", " : ""}
-          {country}
-          {(city || country) && (phone || email) ? " • " : ""}
-          {[phone, email].filter(Boolean).join(" • ")}
+          {sex} {weight}
         </p>
       </div>
     </div>
   );
 }
 
-function SummarySection({ resumeData }: ResumeSectionProps) {
-  const { summary, colorHex } = resumeData;
+function SummarySection({ mealplanData }: MealplanSectionProps) {
+  const { summary, colorHex } = mealplanData;
 
   if (!summary) return null;
 
@@ -137,7 +122,7 @@ function SummarySection({ resumeData }: ResumeSectionProps) {
       <hr className="border-2" style={{ borderColor: colorHex }} />
       <div className="break-inside-avoid space-y-3">
         <p className="text-lg font-semibold" style={{ color: colorHex }}>
-          Professional profile
+          Pet profile
         </p>
         <div className="whitespace-pre-line text-sm">{summary}</div>
       </div>
@@ -145,41 +130,30 @@ function SummarySection({ resumeData }: ResumeSectionProps) {
   );
 }
 
-function WorkExperienceSection({ resumeData }: ResumeSectionProps) {
-  const { workExperience, colorHex } = resumeData;
+function LifestyleHealthSection({ mealplanData }: MealplanSectionProps) {
+  const { lifestyleHealth, colorHex } = mealplanData;
 
-  const workExperienceNotEmpty = workExperience?.filter(
-    (experience) => Object.values(experience).filter(Boolean).length > 0,
+  const lifestyleHealthNotEmpty = lifestyleHealth?.filter(
+    (lifestyle) => Object.values(lifestyle).filter(Boolean).length > 0,
   );
 
-  if (!workExperienceNotEmpty?.length) return null;
+  if (!lifestyleHealthNotEmpty?.length) return null;
 
   return (
     <>
       <hr className="border-2" style={{ borderColor: colorHex }} />
       <div className="space-y-3">
         <p className="text-lg font-semibold" style={{ color: colorHex }}>
-          Experience
+          Lifestyle & Health
         </p>
-        {workExperienceNotEmpty.map((experience, index) => (
+        {lifestyleHealthNotEmpty.map((lifestyle, index) => (
           <div key={index} className="break-inside-avoid space-y-1">
-            <div
-              className="flex items-center justify-between text-sm font-semibold"
-              style={{ color: colorHex }}
-            >
-              <span>{experience.position}</span>
-              {experience.startDate && (
-                <span>
-                  {formatDate(experience.startDate, "MM/yyyy")} -{" "}
-                  {experience.endDate
-                    ? formatDate(experience.endDate, "MM/yyyy")
-                    : "Present"}
-                </span>
-              )}
-            </div>
-            <p className="text-xs font-semibold">{experience.company}</p>
+            <p className="text-xs font-semibold">{lifestyle.activity}</p>
+            <p className="text-xs font-semibold">{lifestyle.diet}</p>
+            <p className="text-xs font-semibold">{lifestyle.health}</p>
+
             <div className="whitespace-pre-line text-xs">
-              {experience.description}
+              {lifestyle.description}
             </div>
           </div>
         ))}
@@ -188,37 +162,32 @@ function WorkExperienceSection({ resumeData }: ResumeSectionProps) {
   );
 }
 
-function EducationSection({ resumeData }: ResumeSectionProps) {
-  const { education, colorHex } = resumeData;
+function GoalSection({ mealplanData }: MealplanSectionProps) {
+  const { goal, colorHex } = mealplanData;
 
-  const educationNotEmpty = education?.filter(
-    (education) => Object.values(education).filter(Boolean).length > 0,
+  const goalNotEmpty = goal?.filter(
+    (goal) => Object.values(goal).filter(Boolean).length > 0,
   );
 
-  if (!educationNotEmpty?.length) return null;
+  if (!goalNotEmpty?.length) return null;
 
   return (
     <>
       <hr className="border-2" style={{ borderColor: colorHex }} />
       <div className="space-y-3">
         <p className="text-lg font-semibold" style={{ color: colorHex }}>
-          Education
+          Goal
         </p>
-        {educationNotEmpty.map((education, index) => (
+        {goalNotEmpty.map((goal, index) => (
           <div key={index} className="break-inside-avoid space-y-1">
             <div
               className="flex items-center justify-between text-sm font-semibold"
               style={{ color: colorHex }}
             >
-              <span>{education.degree}</span>
-              {education.startDate && (
-                <span>
-                  {education.startDate &&
-                    `${formatDate(education.startDate, "MM/yyyy")} ${education.endDate ? `- ${formatDate(education.endDate, "MM/yyyy")}` : ""}`}
-                </span>
-              )}
+              <span>{goal.budget}</span>
             </div>
-            <p className="text-xs font-semibold">{education.school}</p>
+            <p className="text-xs font-semibold">{goal.goal}</p>
+            <p className="text-xs font-semibold">{goal.preferred_source}</p>
           </div>
         ))}
       </div>
@@ -226,10 +195,10 @@ function EducationSection({ resumeData }: ResumeSectionProps) {
   );
 }
 
-function SkillsSection({ resumeData }: ResumeSectionProps) {
-  const { skills, colorHex, borderStyle } = resumeData;
+function FeedingPreferencesSection({ mealplanData }: MealplanSectionProps) {
+  const { feedingPreferences, colorHex, borderStyle } = mealplanData;
 
-  if (!skills?.length) return null;
+  if (!feedingPreferences?.length) return null;
 
   return (
     <>
@@ -239,7 +208,7 @@ function SkillsSection({ resumeData }: ResumeSectionProps) {
           Skills
         </p>
         <div className="flex break-inside-avoid flex-wrap gap-2">
-          {skills.map((skill, index) => (
+          {feedingPreferences.map((preference, index) => (
             <Badge
               key={index}
               className="rounded-md bg-black text-white hover:bg-black"
@@ -253,7 +222,7 @@ function SkillsSection({ resumeData }: ResumeSectionProps) {
                       : "8px",
               }}
             >
-              {skill}
+              {preference}
             </Badge>
           ))}
         </div>

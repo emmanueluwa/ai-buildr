@@ -11,8 +11,6 @@ import path from "path";
 export async function saveMealplan(values: MealplanValues) {
   const { id } = values;
 
-  console.log("values here:", values);
-
   const {
     photo,
     lifestyleHealth,

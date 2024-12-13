@@ -48,10 +48,10 @@ export default function useAutoMealplan(mealplanData: MealplanValues) {
         setMealplanId(updatedMealplan.id);
         setLastSavedData(newData);
 
-        if (searchParams.get("resumeId") !== updatedMealplan.id) {
+        if (searchParams.get("mealplanId") !== updatedMealplan.id) {
           const newSearchParams = new URLSearchParams(searchParams);
 
-          newSearchParams.set("resumeId", updatedMealplan.id);
+          newSearchParams.set("mealplanId", updatedMealplan.id);
 
           window.history.replaceState(
             null,

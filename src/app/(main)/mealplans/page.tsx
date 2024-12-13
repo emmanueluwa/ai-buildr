@@ -2,7 +2,7 @@ import prisma from "@/lib/prisma";
 import { mealplanDataInclude } from "@/lib/types";
 import { auth } from "@clerk/nextjs/server";
 import { Metadata } from "next";
-import ResumeItem from "./ResumeItem";
+import MealplanItem from "./MealplanItem";
 import CreateMealplanButton from "./CreateMealplanButton";
 import { getUserSubscriptionLevel } from "@/lib/subscription";
 import { canCreateMealplan } from "@/lib/permissions";
@@ -51,7 +51,7 @@ export default async function Page() {
 
       <div className="flex w-full grid-cols-2 flex-col gap-3 sm:grid md:grid-cols-3 lg:grid-cols-4">
         {mealplans.map((mealplan) => (
-          <ResumeItem key={mealplan.id} mealplan={mealplan} />
+          <MealplanItem key={mealplan.id} mealplan={mealplan} />
         ))}
       </div>
     </main>

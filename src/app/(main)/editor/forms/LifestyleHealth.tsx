@@ -94,8 +94,10 @@ export default function LifestyleHealthForm({
   return (
     <div className="max-w-cl mx-auto space-y-6">
       <div className="space-y-1.5 text-center">
-        <h2 className="text-2xl font-semibold">Work Exp</h2>
-        <p className="text-sm text-muted-foreground">Add all experiences</p>
+        <h2 className="text-2xl font-semibold">Lifestyle & Health</h2>
+        <p className="text-sm text-muted-foreground">
+          Add all lifestyle and health information for your pet that you can
+        </p>
       </div>
       <Form {...form}>
         <form className="space-y-3">
@@ -209,7 +211,7 @@ function LifestyleHealthItem({
         name={`lifestyleHealth.${index}.diet`}
         render={({ field }) => (
           <FormItem>
-            <FormLabel>Diet</FormLabel>
+            <FormLabel>Diet, describe the current diet of your pet.</FormLabel>
             <FormControl>
               <Input {...field} />
             </FormControl>
@@ -222,7 +224,7 @@ function LifestyleHealthItem({
         name={`lifestyleHealth.${index}.health`}
         render={({ field }) => (
           <FormItem>
-            <FormLabel>Health</FormLabel>
+            <FormLabel>Health, describe how healthy your pet is</FormLabel>
             <FormControl>
               <Input {...field} />
             </FormControl>
@@ -232,14 +234,15 @@ function LifestyleHealthItem({
       />
 
       <FormDescription>
-        Leave <span className="font-semibold">end date</span> empty if current
+        Add <span className="font-semibold">any</span> extra information you can
+        think of regarding your pets health and lifestyle.
       </FormDescription>
       <FormField
         control={form.control}
         name={`lifestyleHealth.${index}.description`}
         render={({ field }) => (
           <FormItem>
-            <FormLabel>Description</FormLabel>
+            <FormLabel>Extra information</FormLabel>
             <FormControl>
               <Textarea {...field} />
             </FormControl>

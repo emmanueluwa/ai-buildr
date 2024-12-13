@@ -1,6 +1,6 @@
 "use client";
 
-import ResumePreview from "@/components/ResumePreview";
+import ResumePreview from "@/components/MealplanPreview";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -15,7 +15,7 @@ import { formatDate } from "date-fns";
 import { MoreVertical, Printer, Trash } from "lucide-react";
 import Link from "next/link";
 import { useRef, useState, useTransition } from "react";
-import { deleteResume } from "./actions";
+import { deleteMealplan } from "./actions";
 import {
   Dialog,
   DialogContent,
@@ -36,7 +36,7 @@ export default function ResumeItem({ mealplan }: MealplanItemProps) {
 
   const reactToPrintFunction = useReactToPrint({
     contentRef,
-    documentTitle: mealplan.title || "Resume",
+    documentTitle: mealplan.title || "Meal Plan",
   });
 
   const wasUpdated = mealplan.updatedAt !== mealplan.createdAt;
@@ -45,7 +45,7 @@ export default function ResumeItem({ mealplan }: MealplanItemProps) {
     <div className="group relative rounded-lg border border-transparent bg-secondary p-3 transition-colors hover:border-border">
       <div className="space-y-3">
         <Link
-          href={`/editor?resumeId=${mealplan.id}`}
+          href={`/editor?mealplanId=${mealplan.id}`}
           className="inline-block w-full text-center"
         >
           <p className="line-clamp-1 font-semibold">
@@ -60,12 +60,12 @@ export default function ResumeItem({ mealplan }: MealplanItemProps) {
           </p>
         </Link>
         <Link
-          href={`/editor?resumeId=${mealplan.id}`}
+          href={`/editor?mealplanId=${mealplan.id}`}
           className="relative inline-block w-full"
         >
           <ResumePreview
             contentRef={contentRef}
-            resumeData={mapToMealplanValues(mealplan)}
+            mealplanData={mapToMealplanValues(mealplan)}
             className="overflow-hidden shadow-sm transition-shadow group-hover:shadow-lg"
           />
           <div className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-white to-transparent"></div>
@@ -141,7 +141,7 @@ function DeleteConfirmationDialog({
   async function handleDelete() {
     startTransition(async () => {
       try {
-        await deleteResume(mealplanId);
+        await deleteMealplan(mealplanId);
         onOpenChange(false);
       } catch (error) {
         console.log(error);

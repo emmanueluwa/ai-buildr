@@ -14,7 +14,7 @@ export default function Navbar() {
   return (
     <header className="shadow-sm">
       <div className="mx-auto flex max-w-7xl items-center justify-between gap-3 p-3">
-        <Link href="/resumes" className="flex items-center gap-2">
+        <Link href="/mealplans" className="flex items-center gap-2">
           <Image
             src={logo}
             alt="logo"
@@ -22,7 +22,7 @@ export default function Navbar() {
             height={35}
             className="rounded-xl"
           />
-          <span className="text-xl font-bold tracking-tight">AI Buildr</span>
+          <span className="text-xl font-bold tracking-tight">Meal Buildr</span>
         </Link>
 
         <div className="flex items-center gap-3">

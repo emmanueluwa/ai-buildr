@@ -1,12 +1,12 @@
-import ResumePreview from "@/components/ResumePreview";
-import { ResumeValues } from "@/lib/validation";
+import ResumePreview from "@/components/MealplanPreview";
+import { MealplanValues } from "@/lib/validation";
 import ColorPicker from "./ColorPicker";
 import BorderStyleButton from "./BorderStyleButton";
 import { cn } from "@/lib/utils";
 
 interface ResumePreviewSectionProps {
-  resumeData: ResumeValues;
-  setResumeData: (data: ResumeValues) => void;
+  resumeData: MealplanValues;
+  setResumeData: (data: MealplanValues) => void;
   className?: string;
 }
 
@@ -35,7 +35,7 @@ export default function ResumePreviewSection({
       </div>
       <div className="flex w-full justify-center overflow-y-auto bg-secondary p-3">
         <ResumePreview
-          resumeData={resumeData}
+          mealplanData={resumeData}
           className="max-w-2cl shadow-md"
         />
       </div>

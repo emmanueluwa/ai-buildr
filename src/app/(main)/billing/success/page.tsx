@@ -10,7 +10,7 @@ export default function Page() {
         😼
       </p>
       <Button asChild>
-        <Link href="/resumes">Go to resumes</Link>
+        <Link href="/mealplans">Go to Meal Plans</Link>
       </Button>
     </main>
   );
