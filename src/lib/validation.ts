@@ -68,9 +68,7 @@ export const feedingPreferencesSchema = z.object({
   feedingPreferences: z.array(z.string().trim()).optional(),
 });
 
-export type FeedingPreferencesSchemaValues = z.infer<
-  typeof feedingPreferencesSchema
->;
+export type FeedingPreferencesValues = z.infer<typeof feedingPreferencesSchema>;
 
 export const summarySchema = z.object({
   summary: optionalString,

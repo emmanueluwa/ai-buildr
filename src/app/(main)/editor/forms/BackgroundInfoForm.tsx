@@ -61,7 +61,7 @@ export default function BackgroundInfoForm({
             name="photo"
             render={({ field: { value, ...fieldValues } }) => (
               <FormItem>
-                <FormLabel>Your photo</FormLabel>
+                <FormLabel>Pets photo</FormLabel>
                 <div className="flex items-center gap-2">
                   <FormControl>
                     <Input

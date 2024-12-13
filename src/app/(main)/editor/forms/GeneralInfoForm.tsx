@@ -15,14 +15,14 @@ import { EditorFormProps } from "@/lib/types";
 import { useEffect } from "react";
 
 export default function GeneralInfoForm({
-  resumeData,
-  setResumeData,
+  mealplanData,
+  setMealplanData,
 }: EditorFormProps) {
   const form = useForm<GeneralInfoValues>({
     resolver: zodResolver(generalInfoSchema),
     defaultValues: {
-      title: resumeData.title || "",
-      description: resumeData.description || "",
+      title: mealplanData.title || "",
+      description: mealplanData.description || "",
     },
   });
 
@@ -32,12 +32,12 @@ export default function GeneralInfoForm({
       if (!isValid) return;
 
       //todo: update resume data
-      setResumeData({ ...resumeData, ...values });
+      setMealplanData({ ...mealplanData, ...values });
     });
 
     //ensuring always only one form watcher
     return unsubscribe;
-  }, [form, resumeData, setResumeData]);
+  }, [form, mealplanData, setMealplanData]);
 
   return (
     <div className="mx-auto max-w-xl space-y-6">
@@ -53,7 +53,7 @@ export default function GeneralInfoForm({
             name="title"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Project name</FormLabel>
+                <FormLabel>Meal Plan name</FormLabel>
                 <FormControl>
                   <Input {...field} placeholder="..." autoFocus />
                 </FormControl>
@@ -71,7 +71,9 @@ export default function GeneralInfoForm({
                 <FormControl>
                   <Input {...field} placeholder="..." />
                 </FormControl>
-                <FormDescription>Describe...</FormDescription>
+                <FormDescription>
+                  Feel free to add a description of the meal plan
+                </FormDescription>
                 <FormMessage />
               </FormItem>
             )}

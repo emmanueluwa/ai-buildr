@@ -10,8 +10,8 @@ import {
 import { Textarea } from "@/components/ui/textarea";
 import { EditorFormProps } from "@/lib/types";
 import {
-  feedingPreferenceSchema,
-  FeedingPreferenceValues,
+  feedingPreferencesSchema,
+  FeedingPreferencesValues,
 } from "@/lib/validation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect } from "react";
@@ -21,10 +21,10 @@ export default function SkillsForm({
   mealplanData,
   setMealplanData,
 }: EditorFormProps) {
-  const form = useForm<FeedingPreferenceValues>({
-    resolver: zodResolver(feedingPreferenceSchema),
+  const form = useForm<FeedingPreferencesValues>({
+    resolver: zodResolver(feedingPreferencesSchema),
     defaultValues: {
-      feedingPrefrence: mealplanData.feedingPreferences || [],
+      feedingPreferences: mealplanData.feedingPreferences || [],
     },
   });
 
@@ -34,49 +34,53 @@ export default function SkillsForm({
       if (!isValid) return;
 
       //todo: update resume data
-      setResumeData({
-        ...resumeData,
-        skills:
-          values.skills
-            ?.filter((skills) => skills !== undefined)
-            .map((skill) => skill.trim())
+      setMealplanData({
+        ...mealplanData,
+        feedingPreferences:
+          values.feedingPreferences
+            ?.filter((feedingPreferences) => feedingPreferences !== undefined)
+            .map((preference) => preference.trim())
             //filter out empty response
-            .filter((skill) => skill !== "") || [],
+            .filter((preference) => preference !== "") || [],
       });
     });
 
     //ensuring always only one form watcher
     return unsubscribe;
-  }, [form, resumeData, setResumeData]);
+  }, [form, mealplanData, setMealplanData]);
 
   return (
     <div className="mx-auto max-w-xl space-y-6">
       <div className="space-y-1.5 text-center">
-        <h2 className="text-2xl font-semibold">Skills</h2>
-        <p className="text-sm text-muted-foreground">Skills?</p>
+        <h2 className="text-2xl font-semibold">Feeding Preferences</h2>
+        <p className="text-sm text-muted-foreground">
+          Please provide any preferences you or your pet have here, for example
+          current favourite foods/proteins, any known allergies or
+          sensitivities, home cooking ability/comfort level
+        </p>
       </div>
 
       <Form {...form}>
         <form className="space-y-3">
           <FormField
             control={form.control}
-            name="skills"
+            name="feedingPreferences"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="sr-only">Skills</FormLabel>
+                <FormLabel className="sr-only">Feeding preferences</FormLabel>
                 <FormControl>
                   <Textarea
                     {...field}
-                    placeholder="e.g react, node, go, python"
+                    placeholder="e.g allergic to chicken, doesn't like salmon, loves eating beef, he only eats a raw diet"
                     onChange={(e) => {
                       //split response into array of strings
-                      const skills = e.target.value.split(",");
-                      field.onChange(skills);
+                      const feedingPreferences = e.target.value.split(",");
+                      field.onChange(feedingPreferences);
                     }}
                   />
                 </FormControl>
                 <FormDescription>
-                  Separate each skill with a comma.
+                  Separate each preference with a comma.
                 </FormDescription>
                 <FormMessage />
               </FormItem>

@@ -88,8 +88,10 @@ export default function GoalForm({
   return (
     <div className="max-w-cl mx-auto space-y-6">
       <div className="space-y-1.5 text-center">
-        <h2 className="text-2xl font-semibold">Education</h2>
-        <p className="text-sm text-muted-foreground">Add all education</p>
+        <h2 className="text-2xl font-semibold">Goal</h2>
+        <p className="text-sm text-muted-foreground">
+          Add all your diet, health and lifestyle goals for your pet
+        </p>
       </div>
       <Form {...form}>
         <form className="space-y-3">

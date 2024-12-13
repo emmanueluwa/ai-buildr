@@ -2,7 +2,7 @@ import { EditorFormProps } from "@/lib/types";
 import GeneralInfoForm from "./forms/GeneralInfoForm";
 import BackgroundInfoForm from "./forms/BackgroundInfoForm";
 import LifestyleHealthForm from "./forms/LifestyleHealth";
-import FeedingPreferencesForm from "./forms/FeedingPreferenceForm";
+import FeedingPreferencesForm from "./forms/FeedingPreferencesForm";
 import SummaryForm from "./forms/SummaryForm";
 import GoalForm from "./forms/GoalForm";
 

@@ -98,7 +98,7 @@ export async function saveMealplan(values: MealplanValues) {
             ...goal,
           })),
         },
-        FeedingPreference: feedingPreferences,
+        FeedingPreferences: feedingPreferences,
         updatedAt: new Date(),
       },
     });
