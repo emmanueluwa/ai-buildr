@@ -1,24 +1,24 @@
 import { useToast } from "@/hooks/use-toast";
 import useDebounce from "@/hooks/useDebounce";
-import { ResumeValues } from "@/lib/validation";
+import { MealplanValues } from "@/lib/validation";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
-import { saveResume } from "./actions";
+import { saveMealplan } from "./actions";
 import { Button } from "@/components/ui/button";
 import { fileReplacer } from "@/lib/utils";
 
-export default function useAutoSaveResume(resumeData: ResumeValues) {
+export default function useAutoMealplan(mealplanData: MealplanValues) {
   const searchParams = useSearchParams();
 
   const { toast } = useToast();
 
-  const debouncedResumeData = useDebounce(resumeData, 1500);
+  const debouncedMealplanData = useDebounce(mealplanData, 1500);
 
-  const [resumeId, setResumeId] = useState(resumeData.id);
+  const [mealplanId, setMealplanId] = useState(mealplanData.id);
 
   //save only if change - deep clone
   const [lastSavedData, setLastSavedData] = useState(
-    structuredClone(resumeData),
+    structuredClone(mealplanData),
   );
 
   const [isSaving, setIsSaving] = useState(false);
@@ -26,7 +26,7 @@ export default function useAutoSaveResume(resumeData: ResumeValues) {
 
   useEffect(() => {
     setIsError(false);
-  }, [debouncedResumeData]);
+  }, [debouncedMealplanData]);
 
   useEffect(() => {
     async function save() {
@@ -34,24 +34,24 @@ export default function useAutoSaveResume(resumeData: ResumeValues) {
         setIsSaving(true);
         setIsError(false);
 
-        const newData = structuredClone(debouncedResumeData);
+        const newData = structuredClone(debouncedMealplanData);
 
-        const updatedResume = await saveResume({
+        const updatedMealplan = await saveMealplan({
           ...newData,
           ...(JSON.stringify(lastSavedData.photo, fileReplacer) ===
             JSON.stringify(newData.photo, fileReplacer) && {
             photo: undefined,
           }),
-          id: resumeId,
+          id: mealplanId,
         });
 
-        setResumeId(updatedResume.id);
+        setMealplanId(updatedMealplan.id);
         setLastSavedData(newData);
 
-        if (searchParams.get("resumeId") !== updatedResume.id) {
+        if (searchParams.get("resumeId") !== updatedMealplan.id) {
           const newSearchParams = new URLSearchParams(searchParams);
 
-          newSearchParams.set("resumeId", updatedResume.id);
+          newSearchParams.set("resumeId", updatedMealplan.id);
 
           window.history.replaceState(
             null,
@@ -86,18 +86,18 @@ export default function useAutoSaveResume(resumeData: ResumeValues) {
     }
 
     const hasUnsavedChanges =
-      JSON.stringify(debouncedResumeData, fileReplacer) !==
+      JSON.stringify(debouncedMealplanData, fileReplacer) !==
       JSON.stringify(lastSavedData, fileReplacer);
 
-    if (hasUnsavedChanges && debouncedResumeData && !isSaving && !isError) {
+    if (hasUnsavedChanges && debouncedMealplanData && !isSaving && !isError) {
       save();
     }
   }, [
-    debouncedResumeData,
+    debouncedMealplanData,
     isSaving,
     lastSavedData,
     isError,
-    resumeId,
+    mealplanId,
     searchParams,
     toast,
   ]);
@@ -105,6 +105,6 @@ export default function useAutoSaveResume(resumeData: ResumeValues) {
   return {
     isSaving,
     hasUnsavedChanges:
-      JSON.stringify(resumeData) !== JSON.stringify(lastSavedData),
+      JSON.stringify(mealplanData) !== JSON.stringify(lastSavedData),
   };
 }

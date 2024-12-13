@@ -1,20 +1,25 @@
 "use server";
 
-import { canCreateResume, canUseCustomizations } from "@/lib/permissions";
+import { canCreateMealplan, canUseCustomizations } from "@/lib/permissions";
 import prisma from "@/lib/prisma";
 import { getUserSubscriptionLevel } from "@/lib/subscription";
-import { resumeSchema, ResumeValues } from "@/lib/validation";
+import { mealplanSchema, MealplanValues } from "@/lib/validation";
 import { auth } from "@clerk/nextjs/server";
 import { del, put } from "@vercel/blob";
 import path from "path";
 
-export async function saveResume(values: ResumeValues) {
+export async function saveMealplan(values: MealplanValues) {
   const { id } = values;
 
   console.log("values here:", values);
 
-  const { photo, workExperience, education, skills, ...resumeValues } =
-    resumeSchema.parse(values);
+  const {
+    photo,
+    lifestyleHealth,
+    goal,
+    feedingPreferences,
+    ...mealplanValues
+  } = mealplanSchema.parse(values);
 
   const { userId } = await auth();
   if (!userId) {
@@ -26,28 +31,28 @@ export async function saveResume(values: ResumeValues) {
 
   //trying to create new resume
   if (!id) {
-    const resumeCount = await prisma.resume.count({
+    const mealplanCount = await prisma.mealPlan.count({
       where: { userId },
     });
 
-    if (!canCreateResume(subscriptionLevel, resumeCount)) {
+    if (!canCreateMealplan(subscriptionLevel, mealplanCount)) {
       throw new Error("Max resume count reached for this subscription level");
     }
   }
 
-  const existingResume = id
-    ? await prisma.resume.findUnique({ where: { id, userId } })
+  const existingMealplan = id
+    ? await prisma.mealPlan.findUnique({ where: { id, userId } })
     : null;
 
-  if (id && !existingResume) {
+  if (id && !existingMealplan) {
     throw new Error("Resume not found");
   }
 
   const hasCustomizations =
-    (resumeValues.borderStyle &&
-      resumeValues.borderStyle !== existingResume?.borderStyle) ||
-    (resumeValues.colorHex &&
-      resumeValues.colorHex !== existingResume?.colorHex);
+    (mealplanValues.borderStyle &&
+      mealplanValues.borderStyle !== existingMealplan?.borderStyle) ||
+    (mealplanValues.colorHex &&
+      mealplanValues.colorHex !== existingMealplan?.colorHex);
 
   if (hasCustomizations && !canUseCustomizations(subscriptionLevel)) {
     throw new Error("Customizations not allowed for this subscription level");
@@ -57,8 +62,8 @@ export async function saveResume(values: ResumeValues) {
   let newPhotoUrl: string | undefined | null = undefined;
 
   if (photo instanceof File) {
-    if (existingResume?.photoUrl) {
-      await del(existingResume.photoUrl);
+    if (existingMealplan?.photoUrl) {
+      await del(existingMealplan.photoUrl);
     }
 
     const blob = await put(`resume_photos/${path.extname(photo.name)}`, photo, {
@@ -68,73 +73,49 @@ export async function saveResume(values: ResumeValues) {
 
     newPhotoUrl = blob.url;
   } else if (photo === null) {
-    if (existingResume?.photoUrl) {
-      await del(existingResume.photoUrl);
+    if (existingMealplan?.photoUrl) {
+      await del(existingMealplan.photoUrl);
     }
     newPhotoUrl = null;
   }
 
   //save changes to db
   if (id) {
-    return prisma.resume.update({
+    return prisma.mealPlan.update({
       where: { id },
       data: {
-        ...resumeValues,
+        ...mealplanValues,
         photoUrl: newPhotoUrl,
-        WorkExperience: {
+        LifestyleHealth: {
           deleteMany: {},
-          create: workExperience?.map((experience) => ({
-            ...experience,
-            startDate: experience.startDate
-              ? new Date(experience.startDate)
-              : undefined,
-            endDate: experience.endDate
-              ? new Date(experience.endDate)
-              : undefined,
+          create: lifestyleHealth?.map((lifestyle) => ({
+            ...lifestyle,
           })),
         },
-        Education: {
+        Goal: {
           deleteMany: {},
-          create: education?.map((education) => ({
-            ...education,
-            startDate: education.startDate
-              ? new Date(education.startDate)
-              : undefined,
-            endDate: education.endDate
-              ? new Date(education.endDate)
-              : undefined,
+          create: goal?.map((goal) => ({
+            ...goal,
           })),
         },
-        Skills: skills,
+        FeedingPreference: feedingPreferences,
         updatedAt: new Date(),
       },
     });
   } else {
-    return prisma.resume.create({
+    return prisma.mealPlan.create({
       data: {
-        ...resumeValues,
+        ...mealplanValues,
         userId,
         photoUrl: newPhotoUrl,
-        WorkExperience: {
-          create: workExperience?.map((experience) => ({
-            ...experience,
-            startDate: experience.startDate
-              ? new Date(experience.startDate)
-              : undefined,
-            endDate: experience.endDate
-              ? new Date(experience.endDate)
-              : undefined,
+        LifestyleHealth: {
+          create: lifestyleHealth?.map((lifestyle) => ({
+            ...lifestyle,
           })),
         },
-        Education: {
-          create: education?.map((education) => ({
-            ...education,
-            startDate: education.startDate
-              ? new Date(education.startDate)
-              : undefined,
-            endDate: education.endDate
-              ? new Date(education.endDate)
-              : undefined,
+        Goal: {
+          create: goal?.map((goal) => ({
+            ...goal,
           })),
         },
       },

@@ -5,26 +5,29 @@ import { steps } from "./steps";
 import Breadcrumbs from "./forms/Breadcrumbs";
 import Footer from "./Footer";
 import { useState } from "react";
-import { ResumeValues } from "@/lib/validation";
+import { MealplanValues } from "@/lib/validation";
 import ResumePreviewSection from "./ResumePreviewSection";
 import { cn, mapToMealplanValues } from "@/lib/utils";
 import useUnloadWarning from "@/hooks/useUnloadWarning";
-import useAutoSaveResume from "./useAutoSaveResume";
+import useAutoSaveMealplan from "./useAutoSaveResume";
 import { MealplanServerData } from "@/lib/types";
 
 interface MealplanEditorProps {
   mealplanToEdit: MealplanServerData | null;
 }
 
-export default function ResumeEditor({ mealplanToEdit }: MealplanEditorProps) {
+export default function MealplanEditor({
+  mealplanToEdit,
+}: MealplanEditorProps) {
   const searchParams = useSearchParams();
-  const [resumeData, setResumeData] = useState<ResumeValues>(
+  const [mealplanData, setMealplanData] = useState<MealplanValues>(
     mealplanToEdit ? mapToMealplanValues(mealplanToEdit) : {},
   );
 
-  const [showSmallResumePreview, setShowSmallResumePreview] = useState(false);
+  const [showSmallMealplanPreview, setShowSmallMealplanPreview] =
+    useState(false);
 
-  const { isSaving, hasUnsavedChanges } = useAutoSaveResume(resumeData);
+  const { isSaving, hasUnsavedChanges } = useAutoSaveMealplan(mealplanData);
 
   useUnloadWarning(hasUnsavedChanges);
 
@@ -57,22 +60,22 @@ export default function ResumeEditor({ mealplanToEdit }: MealplanEditorProps) {
           <div
             className={cn(
               "w-full space-y-6 overflow-y-auto p-3 md:block md:w-1/2",
-              showSmallResumePreview && "hidden",
+              showSmallMealplanPreview && "hidden",
             )}
           >
             <Breadcrumbs currentStep={currentStep} setCurrentStep={setStep} />
             {FormComponent && (
               <FormComponent
-                resumeData={resumeData}
-                setResumeData={setResumeData}
+                resumeData={mealplanData}
+                setResumeData={setMealplanData}
               />
             )}
           </div>
           <div className="grow md:border-r" />
           <ResumePreviewSection
-            resumeData={resumeData}
-            setResumeData={setResumeData}
-            className={cn(showSmallResumePreview && "flex")}
+            resumeData={mealplanData}
+            setResumeData={setMealplanData}
+            className={cn(showSmallMealplanPreview && "flex")}
           />
         </div>
       </main>
@@ -80,8 +83,8 @@ export default function ResumeEditor({ mealplanToEdit }: MealplanEditorProps) {
       <Footer
         currentStep={currentStep}
         setCurrentStep={setStep}
-        setShowSmallResumePreview={setShowSmallResumePreview}
-        showSmallResumePreview={showSmallResumePreview}
+        setShowSmallResumePreview={setShowSmallMealplanPreview}
+        showSmallResumePreview={showSmallMealplanPreview}
         isSaving={isSaving}
       />
     </div>

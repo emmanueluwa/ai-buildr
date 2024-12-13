@@ -92,13 +92,15 @@ model Goal {
 
   goal             String?
   budget           String?
-  preferred_source String
+  preferred_source String?
 
   mealPlanId String
   mealPlan   MealPlan @relation(fields: [mealPlanId], references: [id], onDelete: Cascade)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  @@map("goal")
 }
 
 model UserSubscription {

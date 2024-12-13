@@ -1,8 +1,8 @@
 import { Metadata } from "next";
-import ResumeEditor from "./ResumeEditor";
+import MealplanEditor from "./MealplanEditor";
 import prisma from "@/lib/prisma";
 import { auth } from "@clerk/nextjs/server";
-import { resumeDataInclude } from "@/lib/types";
+import { mealplanDataInclude } from "@/lib/types";
 
 interface PageProps {
   searchParams: Promise<{ resumeId?: string }>;
@@ -20,12 +20,12 @@ export default async function Page({ searchParams }: PageProps) {
     return null;
   }
 
-  const resumeToEdit = resumeId
-    ? await prisma.resume.findUnique({
+  const mealplanToEdit = resumeId
+    ? await prisma.mealPlan.findUnique({
         where: { id: resumeId, userId },
-        include: resumeDataInclude,
+        include: mealplanDataInclude,
       })
     : null;
 
-  return <ResumeEditor resumeToEdit={resumeToEdit} />;
+  return <MealplanEditor mealplanToEdit={mealplanToEdit} />;
 }

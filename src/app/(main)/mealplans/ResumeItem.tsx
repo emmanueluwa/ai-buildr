@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { useToast } from "@/hooks/use-toast";
 import { MealplanServerData } from "@/lib/types";
-import { mapToResumeValues } from "@/lib/utils";
+import { mapToMealplanValues } from "@/lib/utils";
 import { formatDate } from "date-fns";
 import { MoreVertical, Printer, Trash } from "lucide-react";
 import Link from "next/link";
@@ -65,7 +65,7 @@ export default function ResumeItem({ mealplan }: MealplanItemProps) {
         >
           <ResumePreview
             contentRef={contentRef}
-            resumeData={mapToResumeValues(mealplan)}
+            resumeData={mapToMealplanValues(mealplan)}
             className="overflow-hidden shadow-sm transition-shadow group-hover:shadow-lg"
           />
           <div className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-white to-transparent"></div>
