@@ -8,7 +8,7 @@ import { Toaster } from "@/components/ui/toaster";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: { template: "%s - AI Buildr", absolute: "AI Buildr" },
+  title: { template: "%s - Meal Buildr", absolute: "Meal Buildr" },
   description: "",
 };
 

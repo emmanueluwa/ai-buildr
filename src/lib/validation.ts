@@ -106,8 +106,12 @@ export type GenerateWorkExperienceInput = z.infer<
 >;
 
 export const generateSummarySchema = z.object({
-  jobTitle: optionalString,
-  ...backgroundInfoSchema.shape,
+  name: optionalString,
+  breed: optionalString,
+  age: optionalString,
+  weight: optionalString,
+  reproduction: optionalString,
+  sex: optionalString,
   ...lifestyleHealthSchema.shape,
   ...goalSchema.shape,
   ...feedingPreferencesSchema.shape,
