@@ -5,6 +5,7 @@ import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { Badge } from "./ui/badge";
 import { BorderStyles } from "@/app/(main)/editor/BorderStyleButton";
+import Markdown from "./Markdown";
 
 interface MealplanPreviewProps {
   mealplanData: MealplanValues;
@@ -45,7 +46,7 @@ export default function ResumePreview({
 
         <SummarySection mealplanData={mealplanData} />
 
-        <LifestyleHealthSection mealplanData={mealplanData} />
+        {/* <LifestyleHealthSection mealplanData={mealplanData} /> */}
 
         <GoalSection mealplanData={mealplanData} />
 
@@ -131,45 +132,47 @@ function SummarySection({ mealplanData }: MealplanSectionProps) {
       <hr className="border-2" style={{ borderColor: colorHex }} />
       <div className="break-inside-avoid space-y-3">
         <p className="text-lg font-semibold" style={{ color: colorHex }}>
-          Pet profile
+          Meal Plan
         </p>
-        <div className="whitespace-pre-line text-sm">{summary}</div>
+        <div className="text-sm leading-relaxed">
+          <Markdown content={summary} />
+        </div>
       </div>
     </>
   );
 }
 
-function LifestyleHealthSection({ mealplanData }: MealplanSectionProps) {
-  const { lifestyleHealth, colorHex } = mealplanData;
+// function LifestyleHealthSection({ mealplanData }: MealplanSectionProps) {
+//   const { lifestyleHealth, colorHex } = mealplanData;
 
-  const lifestyleHealthNotEmpty = lifestyleHealth?.filter(
-    (lifestyle) => Object.values(lifestyle).filter(Boolean).length > 0,
-  );
+//   const lifestyleHealthNotEmpty = lifestyleHealth?.filter(
+//     (lifestyle) => Object.values(lifestyle).filter(Boolean).length > 0,
+//   );
 
-  if (!lifestyleHealthNotEmpty?.length) return null;
+//   if (!lifestyleHealthNotEmpty?.length) return null;
 
-  return (
-    <>
-      <hr className="border-2" style={{ borderColor: colorHex }} />
-      <div className="space-y-3">
-        <p className="text-lg font-semibold" style={{ color: colorHex }}>
-          Lifestyle & Health
-        </p>
-        {lifestyleHealthNotEmpty.map((lifestyle, index) => (
-          <div key={index} className="break-inside-avoid space-y-1">
-            <p className="text-xs font-semibold">{lifestyle.activity}</p>
-            <p className="text-xs font-semibold">{lifestyle.diet}</p>
-            <p className="text-xs font-semibold">{lifestyle.health}</p>
+//   return (
+//     <>
+//       <hr className="border-2" style={{ borderColor: colorHex }} />
+//       <div className="space-y-3">
+//         <p className="text-lg font-semibold" style={{ color: colorHex }}>
+//           Lifestyle & Health
+//         </p>
+//         {lifestyleHealthNotEmpty.map((lifestyle, index) => (
+//           <div key={index} className="break-inside-avoid space-y-1">
+//             <p className="text-xs font-semibold">{lifestyle.activity}</p>
+//             <p className="text-xs font-semibold">{lifestyle.diet}</p>
+//             <p className="text-xs font-semibold">{lifestyle.health}</p>
 
-            <div className="whitespace-pre-line text-xs">
-              {lifestyle.description}
-            </div>
-          </div>
-        ))}
-      </div>
-    </>
-  );
-}
+//             <div className="whitespace-pre-line text-xs">
+//               {lifestyle.description}
+//             </div>
+//           </div>
+//         ))}
+//       </div>
+//     </>
+//   );
+// }
 
 function GoalSection({ mealplanData }: MealplanSectionProps) {
   const { goal, colorHex } = mealplanData;
@@ -214,7 +217,7 @@ function FeedingPreferencesSection({ mealplanData }: MealplanSectionProps) {
       <hr className="border-2" style={{ borderColor: colorHex }} />
       <div className="break-inside-avoid space-y-3">
         <p className="text-lg font-semibold" style={{ color: colorHex }}>
-          Skills
+          Feeding Preferences
         </p>
         <div className="flex break-inside-avoid flex-wrap gap-2">
           {feedingPreferences.map((preference, index) => (

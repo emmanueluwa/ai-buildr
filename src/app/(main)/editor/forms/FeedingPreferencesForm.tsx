@@ -17,7 +17,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 
-export default function SkillsForm({
+export default function FeedingPreferencesForm({
   mealplanData,
   setMealplanData,
 }: EditorFormProps) {
