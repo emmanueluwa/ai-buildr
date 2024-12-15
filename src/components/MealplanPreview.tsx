@@ -41,10 +41,9 @@ export default function ResumePreview({
         id="mealplanPreviewContent"
       >
         {/* <pre>{JSON.stringify(resumeData, null, 2)}</pre> */}
+        <SummarySection mealplanData={mealplanData} />
 
         <BackgroundInfoHeader mealplanData={mealplanData} />
-
-        <SummarySection mealplanData={mealplanData} />
 
         {/* <LifestyleHealthSection mealplanData={mealplanData} /> */}
 
@@ -129,7 +128,6 @@ function SummarySection({ mealplanData }: MealplanSectionProps) {
 
   return (
     <>
-      <hr className="border-2" style={{ borderColor: colorHex }} />
       <div className="break-inside-avoid space-y-3">
         <p className="text-lg font-semibold" style={{ color: colorHex }}>
           Meal Plan
@@ -138,6 +136,7 @@ function SummarySection({ mealplanData }: MealplanSectionProps) {
           <Markdown content={summary} />
         </div>
       </div>
+      <hr className="border-2" style={{ borderColor: colorHex }} />
     </>
   );
 }

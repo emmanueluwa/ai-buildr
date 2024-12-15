@@ -39,10 +39,12 @@ export default function SummaryForm({
   return (
     <div className="mx-auto max-w-xl space-y-6">
       <div className="space-y-1.5 text-center">
-        <h2 className="text-2xl font-semibold">Summary</h2>
+        <h2 className="text-2xl font-semibold">Meal Plan</h2>
         <p className="text-sm text-muted-foreground">
-          Write a short intro about the aim of this meal plan or let Greta
-          generate on from your given information.
+          Click the button to generate your meal plan. Once completed feel free
+          to edit the generated plan to your preference. To generate a new plan
+          remove the text and make any changes you need to the previous sections
+          of the form.
         </p>
       </div>
       <Form {...form}>

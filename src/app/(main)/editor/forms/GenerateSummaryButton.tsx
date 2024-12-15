@@ -54,7 +54,7 @@ export default function GenerateSummaryButton({
       loading={loading}
     >
       <WandSparkles className="size-4" />
-      Generate Summary
+      Generate Meal Plan
     </LoadingButton>
   );
 }

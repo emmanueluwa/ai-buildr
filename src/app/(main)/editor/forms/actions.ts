@@ -6,8 +6,6 @@ import { getUserSubscriptionLevel } from "@/lib/subscription";
 import {
   GenerateSummaryInput,
   generateSummarySchema,
-  GenerateWorkExperienceInput,
-  generateWorkExperienceSchema,
   // LifestyleHealth,
 } from "@/lib/validation";
 import { auth } from "@clerk/nextjs/server";
@@ -38,47 +36,47 @@ export async function generateSummary(input: GenerateSummaryInput) {
   } = generateSummarySchema.parse(input);
 
   const systemMessage = `
-  You are a raw diet nutrition expert specializing in canine nutrition. Your goal is to create scientifically-backed, personalized raw meal plans that prioritize the long-term health of dogs.
-  
-  Raw Diet Principles:
-  - Focus on high-quality, whole animal protein sources
-  - Balance nutritional needs with species-appropriate raw feeding
-  - Provide precise meat, organ, and bone ratios
-  - Recommend appropriate supplements to ensure complete nutrition
-  - Address individual dog's specific health requirements
-  
-  Comprehensive Raw Meal Plan Components:
-  1. Protein Source Breakdown
-     - Meat types and quality recommendations
-     - Muscle meat percentages
-     - Organ meat selections and quantities
-  
-  2. Bone Content Guidelines
-     - Appropriate raw meaty bone recommendations
-     - Calcium to phosphorus ratio
-  
-  3. Supplement Strategy
-     - Essential vitamin and mineral supplements
-     - Targeted supplements based on dog's health needs
-     - Dosage and sourcing recommendations
-  
-  4. Portion Control
-     - Precise daily portion calculations
-     - Weight and body condition-specific portioning
-     - Feeding frequency recommendations
-  
-  5. Nutritional Goals
-     - Detailed nutritional profile targeting
-     - Health optimization strategies
-     - Age and activity level considerations
-  
-  6. Safety and Preparation
-     - Safe handling of raw ingredients
-     - Storage recommendations
-     - Sanitation guidelines
-     - Gradual diet transition strategies
-  
-  Communicate all recommendations in clear, simple language that a 10 year old pet owner can easily understand and implement. Do not say hello or give a description of what you are about to do.
+  You are a raw diet nutrition expert meal planner specializing in canine nutrition. Your goal is to create flexible, scientifically-backed, and personalized raw meal plans that prioritize the long-term health of dogs while being practical for pet owners to implement.
+
+Key Approach:
+- Provide adaptable meal plans that can accommodate ingredient availability
+- Emphasize nutrition over rigid ingredient requirements
+- Offer clear, simple guidance that empowers pet owners
+- Focus on balanced nutrition with room for substitution
+
+Raw Diet Foundational Principles:
+1. Protein Diversity
+- Prioritize high-quality muscle meats
+- Recommend multiple protein sources
+- Allow for easy protein substitutions
+
+2. Nutritional Balance
+- Ensure proper meat-to-organ ratio
+- Include essential supplements
+- Provide flexible supplement options
+
+3. Preparation Flexibility
+- Offer multiple preparation methods
+- Provide safe handling guidelines
+- Give clear portioning instructions
+
+Recommended Ingredient Categories:
+- Proteins: Beef, Chicken, Pork, Rabbit, Turkey
+- Organ Meats: Liver, Kidneys
+- Bones: Whole or ground raw bones
+- Dairy: Cottage cheese, Plain yogurt
+- Eggs: Raw eggs
+- Fish: Salmon, Tuna, Whitefish (limited frequency)
+- Vegetables: Broccoli, Carrots, Celery, Pumpkin, Spinach, Squash
+- Fruits: Apples, Blueberries, Cranberries
+- Herbs: Basil, Oregano, Parsley
+- Supplements: Fish oil, Kelp, Vitamin E, Zinc
+
+Strict Avoidance List:
+- Avocados, Grapes, Onions, Garlic, Raisins
+
+Communicate recommendations in clear, simple language that a pet owner can easily understand and implement. Provide practical, actionable 5 day meal options, label them option 1,2,3,4,5 with built-in flexibility.
+Do not include an intro. Do not say this "**5-Day Raw Meal Plan for.." get straight to the point.
   `;
 
   const userMessage = `
@@ -128,68 +126,4 @@ export async function generateSummary(input: GenerateSummaryInput) {
   }
 
   return aiResponse;
-}
-
-export async function generateWorkExperience(
-  input: GenerateWorkExperienceInput,
-) {
-  const { userId } = await auth();
-  if (!userId) {
-    throw new Error("Unauthorized");
-  }
-
-  const subscriptionLevel = await getUserSubscriptionLevel(userId);
-
-  if (!canUseAITools(subscriptionLevel)) {
-    throw new Error("Upgrade your subscription to use this feature");
-  }
-
-  const { description } = generateWorkExperienceSchema.parse(input);
-
-  const systemMessage = `
-  You are a job resume generator AI. Your task is to generate a single work experience entry based on the user input. Your response
-  must adhere to the following structure. You can omit fields if they can't be inferred from the provided data, but don't add any
-  new ones.
-
-  Job title: <job title>
-  Company: <company name>
-  Start data: <format: YYYY-MM-DD> (only if provided)
-  End date: <format: YYYY-MM-DD> (only if provided)
-  Description: <an optimized description in bullet format, might be inferred from the title>
-  `;
-
-  const userMessage = `
-  Please provide a work experience entry from this description:
-  ${description}
-  `;
-
-  const completion = await openai.chat.completions.create({
-    model: "gpt-4o-mini",
-    messages: [
-      {
-        role: "system",
-        content: systemMessage,
-      },
-      {
-        role: "user",
-        content: userMessage,
-      },
-    ],
-  });
-
-  const aiResponse = completion.choices[0].message.content;
-
-  if (!aiResponse) {
-    throw new Error("Failed to generate AI response");
-  }
-
-  console.log("aiResponse:workExperience: => ", aiResponse);
-  return {
-    position: aiResponse.match(/Job title: (.*)/)?.[1] || "",
-    company: aiResponse.match(/Company: (.*)/)?.[1] || "",
-    description: (aiResponse.match(/Description:([\s\S]*)/)?.[1] || "").trim(),
-    startDate: aiResponse.match(/Start date: (\d{4}-\d{2}-\d{2})/)?.[1],
-    endDate: aiResponse.match(/End date: (\d{4}-\d{2}-\d{2})/)?.[1],
-  };
-  // satisfies WorkExperience;
 }
