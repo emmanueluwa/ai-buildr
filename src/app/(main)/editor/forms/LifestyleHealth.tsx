@@ -202,7 +202,7 @@ function LifestyleHealthItem({
         name={`lifestyleHealth.${index}.diet`}
         render={({ field }) => (
           <FormItem>
-            <FormLabel>Diet, describe the current diet of your pet.</FormLabel>
+            <FormLabel>Diet, describe the current diet of your dog</FormLabel>
             <FormControl>
               <Input {...field} />
             </FormControl>
@@ -215,7 +215,7 @@ function LifestyleHealthItem({
         name={`lifestyleHealth.${index}.health`}
         render={({ field }) => (
           <FormItem>
-            <FormLabel>Health, describe how healthy your pet is</FormLabel>
+            <FormLabel>Health, describe your dogs body condition</FormLabel>
             <FormControl>
               <Input {...field} />
             </FormControl>
