@@ -5,7 +5,6 @@ import { Metadata } from "next";
 import MealplanItem from "./MealplanItem";
 import CreateMealplanButton from "./CreateMealplanButton";
 import { getUserSubscriptionLevel } from "@/lib/subscription";
-import { canCreateMealplan } from "@/lib/permissions";
 
 export const metadata: Metadata = {
   title: "Your Meal Plans",
@@ -18,7 +17,7 @@ export default async function Page() {
     return null;
   }
 
-  const [mealplans, totalCount, subscriptionLevel] = await Promise.all([
+  const [mealplans, totalCount] = await Promise.all([
     prisma.mealPlan.findMany({
       where: {
         userId,
@@ -40,9 +39,7 @@ export default async function Page() {
 
   return (
     <main className="mx-auto w-full max-w-7xl space-y-6 px-3 py-6">
-      <CreateMealplanButton
-        canCreate={canCreateMealplan(subscriptionLevel, totalCount)}
-      />
+      <CreateMealplanButton />
 
       <div className="space-y-1">
         <h1 className="text-3xl font-bold">Your meal plans</h1>
