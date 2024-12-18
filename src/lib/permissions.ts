@@ -5,7 +5,7 @@ export function canCreateMealplan(
   currentMealplanCount: number,
 ) {
   const maxMealplansMap: Record<SubscriptionLevel, number> = {
-    free: 0,
+    free: Infinity,
     pro_plus: Infinity,
   };
 
@@ -15,9 +15,9 @@ export function canCreateMealplan(
 }
 
 export function canUseAITools(subscriptionLevel: SubscriptionLevel) {
-  return subscriptionLevel !== "free";
+  return subscriptionLevel === "free";
 }
 
 export function canUseCustomizations(subscriptionLevel: SubscriptionLevel) {
-  return subscriptionLevel === "pro_plus";
+  return subscriptionLevel === "free";
 }

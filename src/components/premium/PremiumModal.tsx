@@ -11,7 +11,7 @@ import { env } from "@/env";
 
 // const premiumFeatures = ["AI tools", "Up to 3 documents"];
 const premiumPlusFeatures = [
-  "AI tools",
+  "AI meal suggestions",
   "Infinite meal plans",
   "Custom Design",
 ];
@@ -48,43 +48,25 @@ export default function PremiumModal() {
     >
       <DialogContent className="max-w-2xl">
         <DialogHeader>
-          <DialogTitle>Buildr AI Premium</DialogTitle>
+          <DialogTitle className="text-center">Buildr AI Premium</DialogTitle>
         </DialogHeader>
-        <div className="space-y-6">
-          <p>Get a premium subscription to unlock more features.</p>
-          <div className="flex">
-            {/* <div className="flex w-1/2 flex-col space-y-5">
-              <h3 className="text-center text-lg font-bold">Premium</h3>
-              <ul className="list-inside space-y-2">
-                {premiumFeatures.map((feature) => (
-                  <li key={feature} className="flex items-center gap-2">
-                    <Check className="size-4 text-yellow-500" />
-                    {feature}
-                  </li>
-                ))}
-              </ul>
-              <Button
-                onClick={() =>
-                  handlePremiumClick(
-                    env.NEXT_PUBLIC_STRIPE_PRICE_ID_PRO_MONTHLY,
-                  )
-                }
-                disabled={loading}
-              >
-                Get Premium
-              </Button>
-            </div> */}
-
-            <div className="mx-6 border-l" />
-            <div className="flex w-1/2 flex-col space-y-5">
+        <div className="flex flex-col items-center space-y-6">
+          <p className="text-center">
+            Get a premium subscription to unlock all features.
+          </p>
+          <div className="w-full max-w-md">
+            <div className="flex flex-col items-center space-y-5">
               <h3 className="bg-gradient-to-r from-yellow-600 to-yellow-400 bg-clip-text text-center text-lg font-bold text-transparent">
                 Premium
               </h3>
-              <ul className="list-inside space-y-2">
+              <ul className="w-full list-inside space-y-2">
                 {premiumPlusFeatures.map((feature) => (
-                  <li key={feature} className="flex items-center gap-2">
-                    <Check className="size-4 text-yellow-500" />
-                    {feature}
+                  <li
+                    key={feature}
+                    className="flex items-center justify-center gap-2"
+                  >
+                    <Check className="size-4 flex-shrink-0 text-yellow-500" />
+                    <span className="text-center">{feature}</span>
                   </li>
                 ))}
               </ul>
@@ -92,10 +74,11 @@ export default function PremiumModal() {
                 variant="premium"
                 onClick={() =>
                   handlePremiumClick(
-                    env.NEXT_PUBLIC_STRIPE_PRICE_ID_PRO_PLUS_MONTHLY,
+                    env.NEXT_PUBLIC_STRIPE_PRICE_ID_PRO_PLUS_MONTHLY || "",
                   )
                 }
                 disabled={loading}
+                className="w-full"
               >
                 Get Premium
               </Button>

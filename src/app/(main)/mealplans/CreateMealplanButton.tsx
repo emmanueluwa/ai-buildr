@@ -1,20 +1,11 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import usePremiumModal from "@/hooks/usePremiumModal";
 import { PlusSquare } from "lucide-react";
 import Link from "next/link";
 
-interface CreateMealplanButtonProps {
-  canCreate: boolean;
-}
-
-export default function CreateMealplanButton({
-  canCreate,
-}: CreateMealplanButtonProps) {
-  const premiumModal = usePremiumModal();
-
-  if (canCreate) {
+export default function CreateMealplanButton({}) {
+  if (true) {
     return (
       <Button asChild className="mx-auto flex w-fit gap-2">
         <Link href="/editor">
@@ -24,14 +15,4 @@ export default function CreateMealplanButton({
       </Button>
     );
   }
-
-  return (
-    <Button
-      onClick={() => premiumModal.setOpen(true)}
-      className="mx-auto flex w-fit gap-2"
-    >
-      <PlusSquare className="size-5" />
-      New resume
-    </Button>
-  );
 }
