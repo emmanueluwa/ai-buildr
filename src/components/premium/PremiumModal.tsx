@@ -9,8 +9,12 @@ import { useState } from "react";
 import { createCheckoutSession } from "./actions";
 import { env } from "@/env";
 
-const premiumFeatures = ["AI tools", "Up to 3 documents"];
-const premiumPlusFeatures = ["Infinite documents", "Custom Design"];
+// const premiumFeatures = ["AI tools", "Up to 3 documents"];
+const premiumPlusFeatures = [
+  "AI tools",
+  "Infinite meal plans",
+  "Custom Design",
+];
 
 export default function PremiumModal() {
   const { open, setOpen } = usePremiumModal();
@@ -49,7 +53,7 @@ export default function PremiumModal() {
         <div className="space-y-6">
           <p>Get a premium subscription to unlock more features.</p>
           <div className="flex">
-            <div className="flex w-1/2 flex-col space-y-5">
+            {/* <div className="flex w-1/2 flex-col space-y-5">
               <h3 className="text-center text-lg font-bold">Premium</h3>
               <ul className="list-inside space-y-2">
                 {premiumFeatures.map((feature) => (
@@ -69,12 +73,12 @@ export default function PremiumModal() {
               >
                 Get Premium
               </Button>
-            </div>
+            </div> */}
 
             <div className="mx-6 border-l" />
             <div className="flex w-1/2 flex-col space-y-5">
               <h3 className="bg-gradient-to-r from-yellow-600 to-yellow-400 bg-clip-text text-center text-lg font-bold text-transparent">
-                Premium plus
+                Premium
               </h3>
               <ul className="list-inside space-y-2">
                 {premiumPlusFeatures.map((feature) => (
@@ -93,7 +97,7 @@ export default function PremiumModal() {
                 }
                 disabled={loading}
               >
-                Get Premium Plus
+                Get Premium
               </Button>
             </div>
           </div>

@@ -5,8 +5,7 @@ export function canCreateMealplan(
   currentMealplanCount: number,
 ) {
   const maxMealplansMap: Record<SubscriptionLevel, number> = {
-    free: 1,
-    pro: 3,
+    free: 0,
     pro_plus: Infinity,
   };
 

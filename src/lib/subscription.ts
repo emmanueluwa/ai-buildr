@@ -2,7 +2,7 @@ import { cache } from "react";
 import prisma from "./prisma";
 import { env } from "@/env";
 
-export type SubscriptionLevel = "free" | "pro" | "pro_plus";
+export type SubscriptionLevel = "free" | "pro_plus";
 
 //ensures one request at a time (cache)
 export const getUserSubscriptionLevel = cache(
@@ -14,12 +14,6 @@ export const getUserSubscriptionLevel = cache(
     });
     if (!subscription || subscription.stripeCurrentPeriodEnd < new Date()) {
       return "free";
-    }
-
-    if (
-      subscription.stripePriceId === env.NEXT_PUBLIC_STRIPE_PRICE_ID_PRO_MONTHLY
-    ) {
-      return "pro";
     }
 
     if (
