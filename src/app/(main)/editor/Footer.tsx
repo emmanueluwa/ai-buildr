@@ -62,7 +62,7 @@ export default function Footer({
 
         <div className="flex items-center gap-3">
           <Button variant="secondary" asChild>
-            <Link href="/meal plans">Close</Link>
+            <Link href="/mealplans">Close</Link>
           </Button>
           <p
             className={cn(
