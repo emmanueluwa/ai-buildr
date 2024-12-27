@@ -42,9 +42,7 @@ export default function SummaryForm({
         <h2 className="text-2xl font-semibold">Meal Plan</h2>
         <p className="text-sm text-muted-foreground">
           Click the button to generate your meal plan. Once completed feel free
-          to edit the generated plan to your preference. To generate a new plan
-          remove the text and make any changes you need to the previous sections
-          of the form.
+          to edit the generated plan to your preference.
         </p>
       </div>
       <Form {...form}>
@@ -54,17 +52,18 @@ export default function SummaryForm({
             name="summary"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="sr-only">Summary</FormLabel>
-                <FormControl>
-                  <Textarea {...field} placeholder="Brief text about..." />
-                </FormControl>
-                <FormMessage />
                 <GenerateSummaryButton
                   mealplanData={mealplanData}
                   onSummaryGenerated={(summary) =>
                     form.setValue("summary", summary)
                   }
                 />
+                <div className="pb-6" />
+                <FormLabel className="sr-only">Summary</FormLabel>
+                <FormControl>
+                  <Textarea {...field} placeholder="Brief text about..." />
+                </FormControl>
+                <FormMessage />
               </FormItem>
             )}
           />
