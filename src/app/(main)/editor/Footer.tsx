@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { steps } from "./steps";
-import { FileUserIcon, PenLineIcon } from "lucide-react";
+import { File, PenLineIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface FooterProps {
@@ -52,12 +52,23 @@ export default function Footer({
           variant="outline"
           size="icon"
           onClick={() => setShowSmallResumePreview(!showSmallResumePreview)}
-          className="md:hidden"
+          className="bg-black md:hidden"
           title={
             showSmallResumePreview ? "Show input form" : "Show resume preview"
           }
         >
-          {showSmallResumePreview ? <PenLineIcon /> : <FileUserIcon />}
+          {showSmallResumePreview ? (
+            <PenLineIcon />
+          ) : (
+            <div>
+              <File
+                size={32}
+                className="animate-bounce"
+                color="#ffef3d"
+                strokeWidth={2.5}
+              />
+            </div>
+          )}
         </Button>
 
         <div className="flex items-center gap-3">
