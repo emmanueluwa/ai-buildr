@@ -58,7 +58,12 @@ export default function Footer({
           }
         >
           {showSmallResumePreview ? (
-            <PenLineIcon />
+            <PenLineIcon
+              size={32}
+              className="animate-bounce"
+              color="#ffef3d"
+              strokeWidth={2.5}
+            />
           ) : (
             <div>
               <File
