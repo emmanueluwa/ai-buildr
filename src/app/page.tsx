@@ -1,4 +1,4 @@
-export const maxDuration = 30; // This function can run for a maximum of 5 seconds
+export const maxDuration = 50; // This function can run for a maximum of 5 seconds
 
 import Image from "next/image";
 import logo from "@/assets/meal-logo.jpg";
@@ -26,7 +26,7 @@ export default function Home() {
         </h1>
         <p className="text-lg text-gray-500">
           Our <span className="font-bold">Meal Buildr</span> helps you design a
-          scientifically backed meal plan based on your needs.
+          scientifically backed meal plan based on your furry friends needs.
         </p>
         <Button asChild size="lg" variant="premium">
           <Link href="/mealplans">Get started</Link>
