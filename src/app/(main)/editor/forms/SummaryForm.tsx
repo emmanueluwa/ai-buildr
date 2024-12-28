@@ -43,7 +43,7 @@ export default function SummaryForm({
         <p className="text-sm text-muted-foreground">
           Click the button to generate your meal plan. Once completed feel free
           to edit the generated plan to your preference.
-          <div className="py-2" />
+          <br />
           If on mobile or tablet, to view your meal plan click the black box
           below with the yellow document icon.
         </p>

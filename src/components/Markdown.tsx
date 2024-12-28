@@ -1,6 +1,6 @@
 import markdownit from "markdown-it";
-import DOMPurify from "dompurify";
-
+// import * as DOMPurify from "dompurify";
+import DOMPurify from "isomorphic-dompurify";
 const md = markdownit();
 
 type Props = {
