@@ -3,9 +3,6 @@
 import { Check } from "lucide-react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../ui/dialog";
 import { Button } from "../ui/button";
-import usePremiumModal from "@/hooks/usePremiumModal";
-import { useToast } from "@/hooks/use-toast";
-import { useState } from "react";
 
 // const premiumFeatures = ["AI tools", "Up to 3 documents"];
 const premiumPlusFeatures = [
@@ -15,33 +12,8 @@ const premiumPlusFeatures = [
 ];
 
 export default function PremiumModal() {
-  const { open, setOpen } = usePremiumModal();
-
-  const { toast } = useToast();
-
-  const [loading, setLoading] = useState(false);
-
-  async function handlePremiumClick() {
-    try {
-      setLoading(true);
-    } catch (error) {
-      console.error(error);
-      toast({ variant: "destructive", description: "Something went wrong" });
-    } finally {
-      setLoading(false);
-    }
-  }
-  handlePremiumClick();
-
   return (
-    <Dialog
-      open={open}
-      onOpenChange={(open) => {
-        if (!loading) {
-          setOpen(open);
-        }
-      }}
-    >
+    <Dialog>
       <DialogContent className="max-w-2xl">
         <DialogHeader>
           <DialogTitle className="text-center">Buildr AI Premium</DialogTitle>
@@ -66,7 +38,7 @@ export default function PremiumModal() {
                   </li>
                 ))}
               </ul>
-              <Button variant="premium" disabled={loading} className="w-full">
+              <Button variant="premium" className="w-full">
                 Get Premium
               </Button>
             </div>
