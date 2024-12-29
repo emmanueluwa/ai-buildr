@@ -20,6 +20,7 @@ export default function MealplanEditor({
   mealplanToEdit,
 }: MealplanEditorProps) {
   const searchParams = useSearchParams();
+
   const [mealplanData, setMealplanData] = useState<MealplanValues>(
     mealplanToEdit ? mapToMealplanValues(mealplanToEdit) : {},
   );
@@ -73,7 +74,7 @@ export default function MealplanEditor({
           </div>
           <div className="grow md:border-r" />
           <ResumePreviewSection
-            resumeData={mealplanData}
+            mealplanData={mealplanData}
             setResumeData={setMealplanData}
             className={cn(showSmallMealplanPreview && "flex")}
           />
