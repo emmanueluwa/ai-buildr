@@ -1,8 +1,6 @@
 "use server";
 
 import openai from "@/lib/openai";
-import { canUseAITools } from "@/lib/permissions";
-import { getUserSubscriptionLevel } from "@/lib/subscription";
 import {
   GenerateSummaryInput,
   generateSummarySchema,
@@ -14,12 +12,6 @@ export async function generateSummary(input: GenerateSummaryInput) {
   const { userId } = await auth();
   if (!userId) {
     throw new Error("Unauthorized");
-  }
-
-  const subscriptionLevel = await getUserSubscriptionLevel(userId);
-
-  if (!canUseAITools(subscriptionLevel)) {
-    throw new Error("Upgrade your subscription to use this feature");
   }
 
   const {

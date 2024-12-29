@@ -4,7 +4,6 @@ import { auth } from "@clerk/nextjs/server";
 import { Metadata } from "next";
 import MealplanItem from "./MealplanItem";
 import CreateMealplanButton from "./CreateMealplanButton";
-import { getUserSubscriptionLevel } from "@/lib/subscription";
 
 export const metadata: Metadata = {
   title: "Your Meal Plans",
@@ -32,7 +31,6 @@ export default async function Page() {
         userId,
       },
     }),
-    getUserSubscriptionLevel(userId),
   ]);
 
   // todo: check allowance for non premium users

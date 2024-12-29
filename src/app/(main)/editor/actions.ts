@@ -1,8 +1,6 @@
 "use server";
 
-import { canCreateMealplan, canUseCustomizations } from "@/lib/permissions";
 import prisma from "@/lib/prisma";
-import { getUserSubscriptionLevel } from "@/lib/subscription";
 import { mealplanSchema, MealplanValues } from "@/lib/validation";
 import { auth } from "@clerk/nextjs/server";
 import { del, put } from "@vercel/blob";
@@ -24,36 +22,12 @@ export async function saveMealplan(values: MealplanValues) {
     throw new Error("User not authenticated");
   }
 
-  //   todo: check resume count for non-premium users
-  const subscriptionLevel = await getUserSubscriptionLevel(userId);
-
-  //trying to create new resume
-  if (!id) {
-    const mealplanCount = await prisma.mealPlan.count({
-      where: { userId },
-    });
-
-    if (!canCreateMealplan(subscriptionLevel, mealplanCount)) {
-      throw new Error("Max resume count reached for this subscription level");
-    }
-  }
-
   const existingMealplan = id
     ? await prisma.mealPlan.findUnique({ where: { id, userId } })
     : null;
 
   if (id && !existingMealplan) {
     throw new Error("Resume not found");
-  }
-
-  const hasCustomizations =
-    (mealplanValues.borderStyle &&
-      mealplanValues.borderStyle !== existingMealplan?.borderStyle) ||
-    (mealplanValues.colorHex &&
-      mealplanValues.colorHex !== existingMealplan?.colorHex);
-
-  if (hasCustomizations && !canUseCustomizations(subscriptionLevel)) {
-    throw new Error("Customizations not allowed for this subscription level");
   }
 
   //   undefined = no photo uploaded , null = deleting current photo
