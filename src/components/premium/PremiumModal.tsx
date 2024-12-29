@@ -6,8 +6,6 @@ import { Button } from "../ui/button";
 import usePremiumModal from "@/hooks/usePremiumModal";
 import { useToast } from "@/hooks/use-toast";
 import { useState } from "react";
-import { createCheckoutSession } from "./actions";
-import { env } from "@/env";
 
 // const premiumFeatures = ["AI tools", "Up to 3 documents"];
 const premiumPlusFeatures = [
@@ -23,12 +21,9 @@ export default function PremiumModal() {
 
   const [loading, setLoading] = useState(false);
 
-  async function handlePremiumClick(priceId: string) {
+  async function handlePremiumClick() {
     try {
       setLoading(true);
-
-      const redirectUrl = await createCheckoutSession(priceId);
-      window.location.href = redirectUrl;
     } catch (error) {
       console.error(error);
       toast({ variant: "destructive", description: "Something went wrong" });
@@ -36,6 +31,7 @@ export default function PremiumModal() {
       setLoading(false);
     }
   }
+  handlePremiumClick();
 
   return (
     <Dialog
@@ -70,16 +66,7 @@ export default function PremiumModal() {
                   </li>
                 ))}
               </ul>
-              <Button
-                variant="premium"
-                onClick={() =>
-                  handlePremiumClick(
-                    env.NEXT_PUBLIC_STRIPE_PRICE_ID_PRO_PLUS_MONTHLY || "",
-                  )
-                }
-                disabled={loading}
-                className="w-full"
-              >
+              <Button variant="premium" disabled={loading} className="w-full">
                 Get Premium
               </Button>
             </div>
