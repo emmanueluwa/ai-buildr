@@ -49,7 +49,7 @@ export default function ResumeItem({ mealplan }: MealplanItemProps) {
           className="inline-block w-full text-center"
         >
           <p className="line-clamp-1 font-semibold">
-            {mealplan.title || "No title"}
+            {mealplan.name || "No name"}
           </p>
           {mealplan.description && (
             <p className="line-clamp-2 text-sm">{mealplan.description}</p>
